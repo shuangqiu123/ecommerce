@@ -1,2 +1,9 @@
-package com.sq.dto;public class ItemDto {
+package com.sq.dto;
+
+import lombok.Data;
+
+@Data
+public class ItemDto {
+    private int pageSize;
+    private int pageNum;
 }

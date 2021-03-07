@@ -4,9 +4,9 @@ import com.sq.pojo.Member;
 
 public interface UserService {
 
-    public boolean login(String username, String password);
+    public Member login(String username, String password);
 
-    public void register(Member member);
+    public Member register(Member member);
 
     public Member selectUserById(Long id);
 

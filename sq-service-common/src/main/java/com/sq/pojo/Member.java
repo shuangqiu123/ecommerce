@@ -41,5 +41,7 @@ public class Member implements Serializable {
 
     private String isverified;
 
+    private String authToken;
+
     private static final long serialVersionUID = 1L;
 }

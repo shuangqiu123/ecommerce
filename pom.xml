@@ -9,6 +9,10 @@
     <modules>
         <module>sq-service-common</module>
         <module>sq-user</module>
+        <module>sq-item</module>
+        <module>sq-order</module>
+        <module>sq-security</module>
+        <module>sq-service-security</module>
     </modules>
     <name>ecommerce</name>
 

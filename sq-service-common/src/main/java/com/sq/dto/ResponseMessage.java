@@ -1,8 +1,11 @@
 package com.sq.dto;
 
+import com.github.pagehelper.PageInfo;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ResponseMessage {
 
     // http code
@@ -13,4 +16,9 @@ public class ResponseMessage {
 
     // json object to front end
     private Object object;
+
+
+    public ResponseMessage() {
+
+    }
 }
