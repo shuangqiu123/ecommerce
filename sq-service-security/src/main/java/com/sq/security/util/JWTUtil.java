@@ -1,10 +1,11 @@
-package com.sq.util;
+package com.sq.security.util;
 
 import com.sq.pojo.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -72,11 +73,12 @@ public class JWTUtil {
      * validate token
      *
      * @param token       token from client
-     * @param member
+     * @param userDetails
      */
-    public boolean validateToken(String token, Member member) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         Long uid = Long.parseLong(getUidFromToken(token));
-        return uid.equals(member.getId()) && !isTokenExpired(token);
+        // get the uid
+        return uid.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     /**
