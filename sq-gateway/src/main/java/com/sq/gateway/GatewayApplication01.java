@@ -1,2 +1,13 @@
-package com.sq.gateway;public class GatewayApplication01 {
+package com.sq.gateway;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+public class GatewayApplication01 {
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayApplication01.class, args);
+    }
 }
