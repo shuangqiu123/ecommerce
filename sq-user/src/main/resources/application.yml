@@ -14,10 +14,10 @@ jwt:
   tokenHeader: Authorization
   tokenHead: Bearer
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://lagoucloudeurekaserverA:9300/eureka/,http://lagoucloudeurekaserverB:9301/eureka/
-#  instance:
-#    prefer-ip-address: true
-#    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9400/eureka/,http://localhost:9401/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
