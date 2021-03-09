@@ -36,11 +36,11 @@
         where order_id=#{order_id} and item_id=#{itemId}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sq.pojo.OrderItem" useGeneratedKeys="true">
-    insert into order_item (item_id, order_id, num,
+    insert into order_item (id,item_id, order_id, num,
       title, price, total_fee,
       pic_path, `status`, create_time,
       update_time)
-    values (#{itemId,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER},
+    values (#{id},#{itemId,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER},
       #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{totalFee,jdbcType=DECIMAL},
       #{picPath,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})

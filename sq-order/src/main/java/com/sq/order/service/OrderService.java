@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    void createOrderByUserId(Long uid);
+    Order createOrderByUserId(Long uid);
 
     Order getCurrentOrderByUserId(Long uid);
 

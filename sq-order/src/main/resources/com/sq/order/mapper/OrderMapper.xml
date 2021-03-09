@@ -38,7 +38,7 @@
         where user_id=#{userId} and status=#{status}
     </select>
     <select id="selectOrderByUserId" resultType="com.sq.pojo.Order" parameterType="int">
-        select * from order
+        select * from `order`
         where user_id=#{id}
     </select>
 
@@ -46,14 +46,14 @@
     delete from `order`
     where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
-    <insert id="insert" keyColumn="order_id" keyProperty="orderId" parameterType="com.sq.pojo.Order" useGeneratedKeys="true">
-    insert into order (payment, payment_type, post_fee,
+    <insert id="insert"  parameterType="com.sq.pojo.Order" useGeneratedKeys="true">
+    insert into `order` (order_id, payment, payment_type, post_fee,
       `status`, create_time, update_time,
       payment_time, consign_time, end_time,
       close_time, shipping_name, shipping_code,
       user_id, buyer_message, buyer_nick,
       buyer_comment, unique_key)
-    values (#{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{postFee,jdbcType=DECIMAL},
+    values (#{orderId},#{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{postFee,jdbcType=DECIMAL},
       #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{paymentTime,jdbcType=TIMESTAMP}, #{consignTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
       #{closeTime,jdbcType=TIMESTAMP}, #{shippingName,jdbcType=VARCHAR}, #{shippingCode,jdbcType=VARCHAR},
