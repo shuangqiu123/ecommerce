@@ -13,6 +13,14 @@ spring:
     name: sq-cloud-gateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders: "*"
       routes:
         - id: service-user-router
           uri: lb://sq-user
@@ -22,3 +30,7 @@ spring:
           uri: lb://sq-item
           predicates:
             - Path=/item/**
+        - id: service-order-router
+          uri: lb://sq-order
+          predicates:
+            - Path=/order/**
