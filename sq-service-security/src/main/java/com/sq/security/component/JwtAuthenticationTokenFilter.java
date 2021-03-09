@@ -36,10 +36,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = httpServletRequest.getHeader(this.tokenHeader);
 
+        String authHeader = httpServletRequest.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
-            String authToken = authHeader.substring(this.tokenHead.length());// The part after "Bearer "
+            String authToken = authHeader.substring(this.tokenHead.length() + 1);// The part after "Bearer "
             String uid = jwtUtil.getUidFromToken(authToken);
             LOGGER.info("checking uid:{}", uid);
             if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -50,6 +50,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     LOGGER.info("authenticated user:{}", uid);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    httpServletRequest.setAttribute("userId",uid);
                 }
             }
 

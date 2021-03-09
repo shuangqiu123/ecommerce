@@ -76,9 +76,8 @@ public class JWTUtil {
      * @param userDetails
      */
     public boolean validateToken(String token, UserDetails userDetails) {
-        Long uid = Long.parseLong(getUidFromToken(token));
         // get the uid
-        return uid.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return getUidFromToken(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     /**

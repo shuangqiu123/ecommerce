@@ -5,6 +5,7 @@ import com.sq.security.component.JwtAuthenticationTokenFilter;
 import com.sq.security.component.RestAuthenticationEntryPoint;
 import com.sq.security.component.RestfulAccessDeniedHandler;
 import com.sq.security.dto.MemberDetails;
+import com.sq.security.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDetailService userService;
+
 
     @Autowired
     private AccessDeniedHandler restfulAccessDeniedHandler;
@@ -54,16 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-//                        "/swagger-resources/**",
-//                        "/v2/api-docs/**"
                 )
                 .permitAll()
                 .antMatchers("/user/login/**", "/user/register/**","/item/**")// allow anonymous access for given urls
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
                 .permitAll()
-//                .antMatchers("/**")
-//                .permitAll()
                 .anyRequest()// authorized any other requests
                 .authenticated();
 
@@ -72,10 +72,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().cacheControl();
 
         // add JWT Filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(
+                jwtAuthenticationTokenFilter(),
+                UsernamePasswordAuthenticationFilter.class);
 
         //添加自定义未授权和未登录结果返回
-        httpSecurity.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
+        httpSecurity.exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 
     @Override
@@ -83,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -99,5 +104,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return uid -> {
+            Member member = userService.getMemberByUid(uid);
+            if (member != null) {
+                return new MemberDetails(member);
+            }
+            throw new UsernameNotFoundException("uid is not found");
+        };
     }
 }
