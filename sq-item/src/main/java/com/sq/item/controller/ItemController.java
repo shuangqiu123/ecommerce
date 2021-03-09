@@ -13,7 +13,6 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-
     @GetMapping("/getAllItems")
     public ResponseMessage getAllItems(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         ItemDto itemDto = new ItemDto();

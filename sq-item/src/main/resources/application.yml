@@ -8,3 +8,11 @@ Spring:
     url: jdbc:mysql://localhost:3306/ecommerce?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: 123456
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9400/eureka/,http://localhost:9401/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
