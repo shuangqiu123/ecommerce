@@ -89,8 +89,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void insertCartItem(Long uid, OrderItem orderItem) {
         Order order = getCurrentOrderByUserId(uid);
+        Long itemId = orderItem.getItemId();
 
-        ResponseMessage responseMessage = itemService.getItemById(orderItem.getItemId());
+        // do nothing if it is already in the cart
+        List<OrderItem> orderItems = orderItemMapper.selectByOrderId(order.getOrderId());
+        for (OrderItem oi : orderItems) {
+            if (oi.getItemId().equals(itemId)) {
+                return;
+            }
+        }
+
+        ResponseMessage responseMessage = itemService.getItemById(itemId);
         LinkedHashMap linkedHashMap = (LinkedHashMap) responseMessage.getObject();
 
         // feign converts the object into a linked hashmap
@@ -98,6 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
         // set the price and total fee for the item
         orderItem.setId(UUID.randomUUID().toString());
+        orderItem.setTitle(item.getTitle());
         orderItem.setPrice(item.getPrice());
         orderItem.setTotalFee(item.getPrice().multiply(new BigDecimal(orderItem.getNum())));
         orderItem.setPicPath(item.getImage());
@@ -118,6 +128,13 @@ public class OrderServiceImpl implements OrderService {
     public void updateCartItem(Long uid, OrderItem orderItem) {
         Order order = getCurrentOrderByUserId(uid);
         orderItem.setOrderId(order.getOrderId());
+
+        //reset the total price
+        int num = orderItem.getNum();
+        BigDecimal price = orderItem.getPrice();
+        orderItem.setTotalFee(price.multiply(new BigDecimal(num)));
+        orderItem.setUpdateTime(new Date(System.currentTimeMillis()));
+
         orderItemMapper.updateByOrderIdAndItemId(orderItem);
     }
 }

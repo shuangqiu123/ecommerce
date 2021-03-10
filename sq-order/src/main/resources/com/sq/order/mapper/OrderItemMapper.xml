@@ -33,7 +33,7 @@
   </delete>
     <delete id="deleteByOrderIdAndItemId" parameterType="com.sq.pojo.OrderItem">
         delete from order_item
-        where order_id=#{order_id} and item_id=#{itemId}
+        where order_id=#{orderId} and item_id=#{itemId}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sq.pojo.OrderItem" useGeneratedKeys="true">
     insert into order_item (id,item_id, order_id, num,
