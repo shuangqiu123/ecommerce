@@ -6,12 +6,15 @@ import com.sq.dto.ResponseMessage;
 import com.sq.order.feign.ItemService;
 import com.sq.order.mapper.OrderItemMapper;
 import com.sq.order.mapper.OrderMapper;
+import com.sq.order.mapper.OrderShippingMapper;
 import com.sq.order.service.OrderService;
 import com.sq.pojo.Item;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
+import com.sq.pojo.OrderShipping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,12 +31,17 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemMapper orderItemMapper;
 
     @Autowired
+    private OrderShippingMapper orderShippingMapper;
+
+
+    @Autowired
     private ItemService itemService;
 
     /**
      * create an order by the user id
      * @param uid user id
      */
+    @Transactional
     @Override
     public Order createOrderByUserId(Long uid) {
         Order order = new Order();
@@ -43,7 +51,6 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderId(UUID.randomUUID().toString());
         order.setStatus(0);
         orderMapper.insert(order);
-
         return order;
     }
 
@@ -86,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Transactional
     @Override
     public void insertCartItem(Long uid, OrderItem orderItem) {
         Order order = getCurrentOrderByUserId(uid);
@@ -117,6 +125,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.insert(orderItem);
     }
 
+    @Transactional
     @Override
     public void removeCartItem(Long uid, OrderItem orderItem) {
         Order order = getCurrentOrderByUserId(uid);
@@ -124,6 +133,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.deleteByOrderIdAndItemId(orderItem);
     }
 
+    @Transactional
     @Override
     public void updateCartItem(Long uid, OrderItem orderItem) {
         Order order = getCurrentOrderByUserId(uid);
@@ -136,5 +146,21 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setUpdateTime(new Date(System.currentTimeMillis()));
 
         orderItemMapper.updateByOrderIdAndItemId(orderItem);
+    }
+
+    @Transactional
+    @Override
+    public void createShipping(OrderShipping orderShipping) {
+
+        orderShipping.setCreated(new Date(System.currentTimeMillis()));
+        orderShipping.setUpdated(new Date(System.currentTimeMillis()));
+
+        orderShippingMapper.insert(orderShipping);
+    }
+
+    @Override
+    public void updateShipping(OrderShipping orderShipping) {
+        orderShipping.setUpdated(new Date(System.currentTimeMillis()));
+        orderShippingMapper.updateByOrderId(orderShipping);
     }
 }
