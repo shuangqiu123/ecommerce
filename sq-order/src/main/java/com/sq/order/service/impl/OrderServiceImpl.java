@@ -163,4 +163,9 @@ public class OrderServiceImpl implements OrderService {
         orderShipping.setUpdated(new Date(System.currentTimeMillis()));
         orderShippingMapper.updateByOrderId(orderShipping);
     }
+
+    @Override
+    public void setOrderStatus(String orderId, Integer status) {
+        orderMapper.setOrderStatus(orderId, status);
+    }
 }

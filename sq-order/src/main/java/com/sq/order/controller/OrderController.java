@@ -4,6 +4,7 @@ import com.sq.dto.ResponseMessage;
 import com.sq.order.service.OrderService;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
+import com.sq.pojo.OrderShipping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/order/user/")
 public class OrderController {
 
     @Autowired
@@ -47,6 +48,18 @@ public class OrderController {
         orderService.removeCartItem(this.getUid(request), orderItem);
         return new ResponseMessage(200, "success", null);
     }
+
+    @GetMapping("/addAddress")
+    public ResponseMessage addAddress(@RequestParam("name") String name, @RequestParam("address") String address, @RequestParam("orderId") String orderId, HttpServletRequest request) {
+        OrderShipping orderShipping = new OrderShipping();
+        orderShipping.setReceiverAddress(address);
+        orderShipping.setReceiverName(name);
+        orderShipping.setOrderId(orderId);
+
+        orderService.createShipping(orderShipping);
+        return new ResponseMessage(200, "success", null);
+    }
+
 
     private Long getUid(HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");

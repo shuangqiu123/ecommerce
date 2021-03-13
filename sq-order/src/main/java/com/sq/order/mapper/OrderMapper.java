@@ -20,4 +20,6 @@ public interface OrderMapper {
     Order selectByUserIdAndStatus(Order order);
 
     List<Order> selectOrderByUserId(Long id);
+
+    void setOrderStatus(String orderId, Integer status);
 }

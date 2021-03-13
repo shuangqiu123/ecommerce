@@ -23,4 +23,6 @@ public interface OrderService {
     void createShipping(OrderShipping orderShipping);
 
     void updateShipping(OrderShipping orderShipping);
+
+    void setOrderStatus(String orderId, Integer status);
 }

@@ -29,11 +29,11 @@
     where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
     <insert id="insert" keyColumn="order_id" keyProperty="orderId" parameterType="com.sq.pojo.OrderShipping" useGeneratedKeys="true">
-    insert into order_shipping (receiver_name, receiver_phone, receiver_mobile,
+    insert into order_shipping (order_id, receiver_name, receiver_phone, receiver_mobile,
       receiver_state, receiver_city, receiver_district,
       receiver_address, receiver_zip, created,
       updated)
-    values (#{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR},
+    values (#{orderId}, #{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR},
       #{receiverState,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR},
       #{receiverAddress,jdbcType=VARCHAR}, #{receiverZip,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
