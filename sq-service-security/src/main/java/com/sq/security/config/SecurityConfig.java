@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 )
                 .permitAll()
-                .antMatchers("/user/login/**", "/user/register/**","/item/**")// allow anonymous access for given urls
+                .antMatchers("/user/login/**", "/user/register/**","/item/**", "/payment/paypal/success", "payment/paypal/cancel", "/order/status/**")// allow anonymous access for given urls
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
                 .permitAll()
