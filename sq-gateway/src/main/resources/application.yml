@@ -33,4 +33,8 @@ spring:
         - id: service-order-router
           uri: lb://sq-order
           predicates:
-            - Path=/order/**
+            - Path=/order/user/**
+        - id: service-payment-router
+          uri: lb://sq-payment
+          predicates:
+            - Path=/payment/**
