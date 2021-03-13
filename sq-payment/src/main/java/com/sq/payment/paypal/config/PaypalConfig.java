@@ -1,4 +1,4 @@
-package com.sq.payment.paypall.config;
+package com.sq.payment.paypal.config;
 
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
@@ -20,7 +20,7 @@ public class PaypalConfig {
     private String clientId;
     @Value("${paypal.client.secret}")
     private String clientSecret;
-    @Value("${paypal.mode}")
+    @Value("${paypal.client.mode}")
     private String mode;
 
     @Bean
