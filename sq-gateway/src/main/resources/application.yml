@@ -1,10 +1,9 @@
 server:
-  port: 9500
+  port: 9501
 eureka:
   client:
     serviceUrl:
-#      defaultZone: http://localhost:9400/eureka, http://localhost:9401/eureka
-      defaultZone: http://localhost:9400/eureka
+      defaultZone: http://localhost:9400/eureka, http://localhost:9401/eureka
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
@@ -38,3 +37,7 @@ spring:
           uri: lb://sq-payment
           predicates:
             - Path=/payment/**
+        - id: service-management-router
+          uri: lb://sq-management
+          predicates:
+            - Path=/management/**

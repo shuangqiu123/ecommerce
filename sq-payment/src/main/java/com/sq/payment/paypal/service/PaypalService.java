@@ -53,8 +53,8 @@ public class PaypalService implements PaymentService {
         payer.setPaymentMethod("paypal");
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setReturnUrl("http://localhost:9500/payment/paypal/success");
-        redirectUrls.setCancelUrl("http://localhost:9500/payment/paypal/cancel");
+        redirectUrls.setReturnUrl("https://data.demostore.top/payment/paypal/success");
+        redirectUrls.setCancelUrl("https://data.demostore.top/payment/paypal/cancel");
 
         payment.setRedirectUrls(redirectUrls);
 

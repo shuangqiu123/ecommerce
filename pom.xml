@@ -15,6 +15,7 @@
         <module>sq-gateway</module>
         <module>sq-eureka</module>
         <module>sq-payment</module>
+        <module>sq-management</module>
     </modules>
     <name>ecommerce</name>
 
