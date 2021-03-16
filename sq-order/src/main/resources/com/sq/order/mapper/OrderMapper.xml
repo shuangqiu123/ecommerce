@@ -37,9 +37,12 @@
         select * from `order`
         where user_id=#{userId} and status=#{status}
     </select>
-    <select id="selectOrderByUserId" resultType="com.sq.pojo.Order" parameterType="int">
+    <select id="selectOrderByUserId" resultType="com.sq.pojo.Order" parameterType="long">
         select * from `order`
         where user_id=#{id}
+    </select>
+    <select id="selectOrder" resultType="com.sq.pojo.Order">
+       select * from `order`
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

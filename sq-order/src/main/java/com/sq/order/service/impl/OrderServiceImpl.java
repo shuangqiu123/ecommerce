@@ -93,6 +93,17 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        List<Order> orders = orderMapper.selectOrder();
+
+        for (Order o : orders) {
+            List<OrderItem> orderItems = orderItemMapper.selectByOrderId(o.getOrderId());
+            o.setOrderItemList(orderItems);
+        }
+        return orders;
+    }
+
     @Transactional
     @Override
     public void insertCartItem(Long uid, OrderItem orderItem) {

@@ -22,4 +22,6 @@ public interface OrderMapper {
     List<Order> selectOrderByUserId(Long id);
 
     void setOrderStatus(String orderId, Integer status);
+
+    List<Order> selectOrder();
 }

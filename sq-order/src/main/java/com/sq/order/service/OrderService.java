@@ -14,6 +14,8 @@ public interface OrderService {
 
     List<Order> getAllOrdersByUserId(Long uid);
 
+    List<Order> getAllOrders();
+
     void insertCartItem(Long uid, OrderItem orderItem);
 
     void removeCartItem(Long uid, OrderItem orderItem);
