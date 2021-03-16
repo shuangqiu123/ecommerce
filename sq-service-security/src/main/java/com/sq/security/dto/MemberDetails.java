@@ -2,12 +2,16 @@ package com.sq.security.dto;
 
 import com.sq.pojo.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class MemberDetails implements UserDetails {
     private Member member;
+
 
     public MemberDetails(Member member) {
         this.member = member;

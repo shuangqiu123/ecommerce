@@ -60,9 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 )
                 .permitAll()
-                .antMatchers("/user/login/**", "/user/register/**","/item/**", "/payment/paypal/success", "payment/paypal/cancel", "/order/status/**")// allow anonymous access for given urls
+                .antMatchers("/user/login/**", "/user/register/**","/item/**", "/payment/paypal/success", "payment/paypal/cancel", "/order/status/**"
+                ,"/order/management/**")// allow anonymous access for given urls
                 .permitAll()
-                .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
+                .antMatchers(HttpMethod.OPTIONS) //cors
                 .permitAll()
                 .anyRequest()// authorized any other requests
                 .authenticated();
@@ -76,7 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 jwtAuthenticationTokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);
 
-        //添加自定义未授权和未登录结果返回
         httpSecurity.exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
