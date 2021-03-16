@@ -10,7 +10,7 @@ Management System: https://demostore.top/management
 
 ### System Architecture Diagram
 
-![Architecture Diagram](/frontend/src/assets/s.png)
+![Architecture Diagram](https://github.com/shuangqiu123/ecommerce/blob/master/frontend/src/assets/s.png)
 
 ### Project File Structure
 
