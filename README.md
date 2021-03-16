@@ -1,12 +1,16 @@
 # Demo Store
 
+Demo website url: https://demostore.top
+
+Management System: https://demostore.top/management
+
 ## Project Description
 
-`Demo Store` is a ecommerce system, including online store system and management system. It is using distributed microservices architecture based on Spring Cloud + MyBatis/Hibernate. The online store makes users to view items and make orders. The management system allows administrators to manage orders, items and users.
+`Demo Store` is a ecommerce system, including online store system and management system. It is using distributed microservices architecture based on Spring Cloud + MyBatis. The online store allows users to view items and create orders. The management system allows administrators to manage orders, items and users.
 
 ### System Architecture Diagram
 
-![Architecture Diagram](http://demostore.top/images/structure.png)
+![Architecture Diagram](https://demostore.top/images/structure.png)
 
 ### Project File Structure
 
@@ -20,6 +24,8 @@ ecommerce
 ├── sq-user -- online store user system
 ├── sq-item -- online store item system
 ├── sq-payment -- online store payment system
+├── sq-management -- online store management system
+├── frontend -- contains frontend files of the oneline store
 ```
 
 # Project Tech Stacks
@@ -39,7 +45,6 @@ Project uses client side rendering and the frontend needs to be deployed separat
 
 - SpringBoot
 - MyBatis
-- Hibernate (JPA)
 - MySQL
 - MyBatis Generator
 - Spring Security
