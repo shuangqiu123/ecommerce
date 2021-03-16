@@ -25,7 +25,7 @@ ecommerce
 ├── sq-item -- online store item system
 ├── sq-payment -- online store payment system
 ├── sq-management -- online store management system
-├── frontend -- contains frontend files of the oneline store
+├── frontend -- contains frontend files of the online store
 ```
 
 # Project Tech Stacks
