@@ -1,37 +1,54 @@
-## Welcome to GitHub Pages
+# Demo Store
 
-You can use the [editor on GitHub](https://github.com/shuangqiu123/ecommerce/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Demo website url: https://demostore.top
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Management System: https://demostore.top/management
 
-### Markdown
+## Project Description
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+`Demo Store` is a ecommerce system, including online store system and management system. It is using distributed microservices architecture based on Spring Cloud + MyBatis. The online store allows users to view items and create orders. The management system allows administrators to manage orders, items and users.
 
-```markdown
-Syntax highlighted code block
+### System Architecture Diagram
 
-# Header 1
-## Header 2
-### Header 3
+![Architecture Diagram](/frontend/src/assets/s.png)
 
-- Bulleted
-- List
+### Project File Structure
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+``` lua
+ecommerce
+├── sq-eureka -- Service Registry Center
+├── sq-gateway -- Spring cloud gateway
+├── sq-common -- contains tools and pojo
+├── sq-security -- Spring Security for authentication
+├── sq-order -- online store order system
+├── sq-user -- online store user system
+├── sq-item -- online store item system
+├── sq-payment -- online store payment system
+├── sq-management -- online store management system
+├── frontend -- contains frontend files of the online store
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+# Project Tech Stacks
 
-### Jekyll Themes
+Project uses client side rendering and the frontend needs to be deployed separately. 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/shuangqiu123/ecommerce/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Frontend
 
-### Support or Contact
+- Node.js
+- Axios
+- ES6
+- Vue.js
+- Vue Router
+- Element UI
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Backend
+
+- SpringBoot
+- MyBatis
+- MySQL
+- MyBatis Generator
+- Spring Security
+- Spring Cloud Gateway
+- Eureka
+- Feign, Ribbon and Hystrix
+- Nginx
