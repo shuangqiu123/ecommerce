@@ -7,6 +7,9 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
+
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
+
 spring:
   application:
     name: sq-cloud-gateway
@@ -29,6 +32,12 @@ spring:
           uri: lb://sq-item
           predicates:
             - Path=/item/**
+          filters:
+            - name: Hystrix
+              args:
+                name: HystrixCommand
+                fallbackUri: forward:/fallback
+
         - id: service-order-router
           uri: lb://sq-order
           predicates:
