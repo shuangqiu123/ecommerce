@@ -43,14 +43,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String uid = jwtUtil.getUidFromToken(authToken);
             LOGGER.info("checking uid:{}", uid);
             if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(uid);
                 if (jwtUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     LOGGER.info("authenticated user:{}", uid);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    httpServletRequest.setAttribute("userId",uid);
+                    httpServletRequest.setAttribute("userId", uid);
                 }
             }
 

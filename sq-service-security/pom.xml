@@ -16,11 +16,6 @@
     <artifactId>sq-service-security</artifactId>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>4.5.7</version>
@@ -36,6 +31,7 @@
             <groupId>com.sq</groupId>
             <artifactId>sq-service-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

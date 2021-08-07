@@ -2,9 +2,6 @@ package com.sq.security.config;
 
 import com.sq.pojo.Member;
 import com.sq.security.component.JwtAuthenticationTokenFilter;
-import com.sq.security.component.RestAuthenticationEntryPoint;
-import com.sq.security.component.RestfulAccessDeniedHandler;
-import com.sq.security.dto.MemberDetails;
 import com.sq.security.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * SecurityConfig manage the access to URLs
- * credit: http://www.macrozheng.com/#/architect/mall_arch_04
  */
 @Configuration
 @EnableWebSecurity
@@ -36,16 +32,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailService userService;
 
-
     @Autowired
     private AccessDeniedHandler restfulAccessDeniedHandler;
 
     @Autowired
     private AuthenticationEntryPoint restAuthenticationEntryPoint;
 
+    private static final String[] AUTH_WHITELIST ={
+            "/user/login/**",
+            "/user/register/**",
+            "/item/**",
+            "/payment/paypal/success",
+            "payment/paypal/cancel",
+//            "/order/status/**",
+//            "/order/management/**"
+    };
+
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf()
+                // use JWT instead
                 .disable()
                 .sessionManagement()// no need for session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -60,8 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 )
                 .permitAll()
-                .antMatchers("/user/login/**", "/user/register/**","/item/**", "/payment/paypal/success", "payment/paypal/cancel", "/order/status/**"
-                ,"/order/management/**")// allow anonymous access for given urls
+                .antMatchers(AUTH_WHITELIST)// allow anonymous access for given urls
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS) //cors
                 .permitAll()
@@ -88,12 +94,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
@@ -106,13 +110,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return uid -> {
             Member member = userService.getMemberByUid(uid);
             if (member != null) {
-                return new MemberDetails(member);
+                return member;
             }
             throw new UsernameNotFoundException("uid is not found");
         };
