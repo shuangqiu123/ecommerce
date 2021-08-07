@@ -4,10 +4,10 @@ import com.sq.pojo.Member;
 
 public interface UserService {
 
-    public Member login(String username, String password);
+    Member login(String username, String password);
 
-    public Member register(Member member);
+    Member register(Member member);
 
-    public Member selectUserById(Long id);
+    Member selectUserById(Long id);
 
 }
