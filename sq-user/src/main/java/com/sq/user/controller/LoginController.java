@@ -2,16 +2,17 @@ package com.sq.user.controller;
 import com.sq.dto.ResponseMessage;
 import com.sq.pojo.Member;
 import com.sq.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user/login")
 public class LoginController {
-    @Autowired
-    private UserService userService;
 
+    private final UserService userService;
 
     @PostMapping("/normal")
     public ResponseMessage normalLogin(@RequestBody Member member) {

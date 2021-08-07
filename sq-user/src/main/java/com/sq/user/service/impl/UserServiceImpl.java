@@ -4,9 +4,8 @@ import com.sq.pojo.Member;
 import com.sq.user.mapper.UserMapper;
 import com.sq.user.service.UserService;
 import com.sq.security.util.JWTUtil;
-import com.sq.util.PasswordUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +13,13 @@ import java.sql.Date;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-//    @Value("${jwt.tokenHeader}")
-//    private String tokenHeader;
-//    @Value("${jwt.tokenHead}")
-//    private String tokenHead;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Member login(String username, String password) {

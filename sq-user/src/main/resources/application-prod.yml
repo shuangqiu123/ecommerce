@@ -1,0 +1,15 @@
+server:
+  port: 9200
+Spring:
+  application:
+    name: sq-user
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url:
+    username:
+    password:
+jwt:
+  secret:
+  expiration: 604800
+  tokenHeader: Authorization
+  tokenHead: Bearer
