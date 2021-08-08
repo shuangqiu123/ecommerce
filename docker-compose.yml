@@ -1,0 +1,7 @@
+version: "3"
+services: 
+  sq-eureka:
+    build: 
+      context: ./sq-eureka
+    ports:
+      - "80:80"
