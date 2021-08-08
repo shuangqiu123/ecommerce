@@ -1,0 +1,30 @@
+server:
+  port: 9700
+Spring:
+  application:
+    name: sq-payment
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url:
+    username:
+    password:
+
+jwt:
+  secret:
+  expiration: 604800
+  tokenHeader: Authorization
+  tokenHead: Bearer
+
+paypal:
+  client:
+    app: AUIIEWLQmECuu7K3qd8xvvBMM7SN76Ql7occ1F0d84RqCpxlI2cchIxe-xBCzSVaxxmFLMSpG-Y1LzkI
+    secret: ENlUZyfBghNeZNWtbbvQ0yIdiqZbpnymvWkM2MqpzVpEDiM-jWsKXmgt-FYxCioBJIQgG5zxMqx6VRvE
+    mode: sandbox
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@

@@ -1,0 +1,23 @@
+server:
+  port: 9600
+Spring:
+  application:
+    name: sq-order
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url:
+    username:
+    password:
+jwt:
+  secret:
+  expiration: 604800
+  tokenHeader: Authorization
+  tokenHead: Bearer
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@

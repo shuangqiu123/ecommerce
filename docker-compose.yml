@@ -12,3 +12,27 @@ services:
       dockerfile: ./sq-user/Dockerfile
     ports:
       - "80:9200"
+  sq-order:
+    build:
+      context: .
+      dockerfile: ./sq-order/Dockerfile
+    ports:
+      - "80:9600"
+  sq-payment:
+    build:
+      context: .
+      dockerfile: ./sq-payment/Dockerfile
+    ports:
+      - "80:9700"
+  sq-management:
+    build:
+      context: .
+      dockerfile: ./sq-management/Dockerfile
+    ports:
+      - "80:9800"
+  sq-item:
+    build:
+      context: .
+      dockerfile: ./sq-item/Dockerfile
+    ports:
+      - "80:9301"
