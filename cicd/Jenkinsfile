@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     echo 'run mvn install'
+                    sh 'chmod 777 ./mvnw'
                     sh './mvnw install'
                 }
             }
