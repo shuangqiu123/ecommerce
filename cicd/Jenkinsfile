@@ -1,15 +1,12 @@
 pipeline {
-    agent: any
-
-    tools: {
-        maven
-    }
+    agent any
 
     stages {
-        stage('hello world') {
+        stage('build and test project') {
             steps {
                 script {
-                    echo 'hello world from sq'
+                    echo 'run mvn install'
+                    sh './mvnw install'
                 }
             }
         }
