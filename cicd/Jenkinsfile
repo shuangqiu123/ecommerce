@@ -11,5 +11,14 @@ pipeline {
                 }
             }
         }
+
+        stage('build docker images') {
+            steps {
+                script {
+                    echo 'build docker images'
+                    sh 'docker-compose build'
+                }
+            }
+        }
     }
 }
