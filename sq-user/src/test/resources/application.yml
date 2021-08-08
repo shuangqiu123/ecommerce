@@ -13,3 +13,10 @@ jwt:
   expiration: 604800
   tokenHeader: Authorization
   tokenHead: Bearer
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9400/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@

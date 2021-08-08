@@ -5,6 +5,7 @@ import com.sq.order.service.OrderService;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
 import com.sq.pojo.OrderShipping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/order/user/")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping("/getOrderListByUserId")
     public ResponseMessage getOrderListByUserId(HttpServletRequest request) {

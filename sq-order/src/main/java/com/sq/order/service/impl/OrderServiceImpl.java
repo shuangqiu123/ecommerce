@@ -12,6 +12,7 @@ import com.sq.pojo.Item;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
 import com.sq.pojo.OrderShipping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,20 +23,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
-    @Autowired
-    private OrderMapper orderMapper;
 
-    @Autowired
-    private OrderItemMapper orderItemMapper;
+    private final OrderMapper orderMapper;
 
-    @Autowired
-    private OrderShippingMapper orderShippingMapper;
+    private final OrderItemMapper orderItemMapper;
 
+    private final OrderShippingMapper orderShippingMapper;
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
     /**
      * create an order by the user id
