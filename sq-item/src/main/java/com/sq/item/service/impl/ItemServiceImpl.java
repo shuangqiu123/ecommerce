@@ -6,15 +6,17 @@ import com.sq.dto.ItemDto;
 import com.sq.item.mapper.ItemMapper;
 import com.sq.item.service.ItemService;
 import com.sq.pojo.Item;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ItemServiceImpl implements ItemService {
-    @Autowired
-    private ItemMapper itemMapper;
+
+    private final ItemMapper itemMapper;
 
 
     // page split
