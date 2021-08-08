@@ -3,12 +3,12 @@ services:
   sq-eureka:
     build: 
       context: .
-      dockerfile: /sq-eureka/Dockerfile
+      dockerfile: ./sq-eureka/Dockerfile
     ports:
       - "80:80"
   sq-user:
     build:
       context: .
-      dockerfile: /sq-user/Dockerfile
+      dockerfile: ./sq-user/Dockerfile
     ports:
       - "80:9200"
