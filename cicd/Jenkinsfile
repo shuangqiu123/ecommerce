@@ -1,0 +1,17 @@
+pipeline {
+    agent: any
+
+    tools: {
+        maven
+    }
+
+    stages {
+        stage('hello world') {
+            steps {
+                script {
+                    echo 'hello world from sq'
+                }
+            }
+        }
+    }
+}
