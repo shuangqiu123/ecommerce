@@ -2,6 +2,13 @@ version: "3"
 services: 
   sq-eureka:
     build: 
-      context: ./sq-eureka
+      context: .
+      dockerfile: /sq-eureka/Dockerfile
     ports:
       - "80:80"
+  sq-user:
+    build:
+      context: .
+      dockerfile: /sq-user/Dockerfile
+    ports:
+      - "80:9200"
