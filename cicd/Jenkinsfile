@@ -34,12 +34,12 @@ pipeline {
         stage('Push Docker image') {
              steps {
                 script {
-                    sh 'docker tag demostore_sq-item:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-item:latest'
-                    sh 'docker tag demostore_sq-user:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-user:latest'
-                    sh 'docker tag demostore_sq-order:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-order:latest'
-                    sh 'docker tag demostore_sq-eureka:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-eureka:latest'
-                    sh 'docker tag demostore_sq-management:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-management:latest'
-                    sh 'docker tag demostore_sq-payment:LATEST $AWS_ECR_CREDENTIALS/demostore_sq-payment:latest'
+                    sh 'docker tag demostore_sq-item:latest $AWS_ECR_CREDENTIALS/demostore_sq-item:latest'
+                    sh 'docker tag demostore_sq-user:latest $AWS_ECR_CREDENTIALS/demostore_sq-user:latest'
+                    sh 'docker tag demostore_sq-order:latest $AWS_ECR_CREDENTIALS/demostore_sq-order:latest'
+                    sh 'docker tag demostore_sq-eureka:latest $AWS_ECR_CREDENTIALS/demostore_sq-eureka:latest'
+                    sh 'docker tag demostore_sq-management:latest $AWS_ECR_CREDENTIALS/demostore_sq-management:latest'
+                    sh 'docker tag demostore_sq-payment:latest $AWS_ECR_CREDENTIALS/demostore_sq-payment:latest'
                     sh 'docker push $AWS_ECR_CREDENTIALS/demostore_sq-item:latest'
                     sh 'docker push $AWS_ECR_CREDENTIALS/demostore_sq-management:latest'
                     sh 'docker push $AWS_ECR_CREDENTIALS/demostore_sq-payment:latest'
