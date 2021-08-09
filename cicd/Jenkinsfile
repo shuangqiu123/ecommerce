@@ -1,11 +1,14 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "$PATH:/usr/local/bin"
+    }
+    
     stages {
         stage('build and test project') {
             steps {
                 script {
-                    echo 'run mvn install'
                     sh 'chmod 777 ./mvnw'
                     sh './mvnw install'
                 }
@@ -15,10 +18,30 @@ pipeline {
         stage('build docker images') {
             steps {
                 script {
-                    echo 'build docker images'
                     sh 'docker-compose build'
                 }
             }
+        }
+
+        stage('log in to AWS ECR') {
+            steps {
+                script {
+                    sh 'aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $AWS_ECR_CREDENTIALS'
+                }
+            }
+        }
+
+        stage('Push Docker image') {
+             steps {
+                script {
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-item'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-management'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-payment'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-order'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-user'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-eureka'
+                }
+             }
         }
     }
 }
