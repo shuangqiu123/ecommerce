@@ -34,12 +34,12 @@ pipeline {
         stage('Push Docker image') {
              steps {
                 script {
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-item'
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-management'
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-payment'
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-order'
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-user'
-                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-eureka'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-item:LATEST'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-management:LATEST'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-payment:LATEST'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-order:LATEST'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-user:LATEST'
+                    sh 'docker push $AWS_ECR_CREDENTIALS/shuangqiu:demostore_sq-eureka:LATEST'
                 }
              }
         }
