@@ -59,7 +59,7 @@ export default {
   methods: {
     submit() {
       return this.axios
-        .post(this.host + "/management/item/insertItem", this.form, {
+        .post( "/management/item/insertItem", this.form, {
           headers: {
             Authorization : this.admin.authToken
           }

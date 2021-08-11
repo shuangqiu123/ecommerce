@@ -211,7 +211,7 @@ export default {
 
     loadCart() {
       return this.axios
-        .get(this.host + "/order/user/getCartByUserId", {
+        .get( "/order/user/getCartByUserId", {
           headers: {
             Authorization: this.user.authToken,
           },
@@ -235,7 +235,7 @@ export default {
     },
     removeItem(index) {
       let orderItem = this.cart.orderItemList[index];
-      return this.axios.post(this.host + '/order/user/removeItem', orderItem, {
+      return this.axios.post( '/order/user/removeItem', orderItem, {
           headers: {
             Authorization: this.user.authToken,
           }})
@@ -246,7 +246,7 @@ export default {
 
     handleChange(index) {
       let orderItem = this.cart.orderItemList[index];
-      return this.axios.post(this.host + '/order/user/updateItem', orderItem, {
+      return this.axios.post( '/order/user/updateItem', orderItem, {
           headers: {
             Authorization: this.user.authToken,
           }})
@@ -259,7 +259,7 @@ export default {
     },
     login() {
       return this.axios
-        .post(this.host + "/user/login/normal", {
+        .post( "/user/login/normal", {
           username: this.ruleForm.username,
           password: this.ruleForm.password,
         })

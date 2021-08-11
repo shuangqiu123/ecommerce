@@ -176,7 +176,7 @@ export default {
 
     login() {
       return this.axios
-        .post(this.host + "/user/login/normal", {
+        .post( "/user/login/normal", {
           username: this.ruleForm.username,
           password: this.ruleForm.password,
         })
@@ -199,7 +199,7 @@ export default {
     loadItem() {
       let split = window.location.href.split("/");
       return this.axios
-        .get(this.host + "/item/getItemById/" + split[split.length - 1])
+        .get( "/item/getItemById/" + split[split.length - 1])
         .then((res) => {
           console.log(res.data);
           this.item = res.data.object;
@@ -214,7 +214,7 @@ export default {
             return;
         }
 
-        return this.axios.post(this.host + "/order/user/addItem",{
+        return this.axios.post( "/order/user/addItem",{
             itemId: this.item.id,
             num: this.num,
         },{headers: {

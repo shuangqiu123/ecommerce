@@ -38,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationEntryPoint restAuthenticationEntryPoint;
 
-    private static final String[] AUTH_WHITELIST ={
+    private static final String[] AUTH_WHITELIST = {
             "/user/login/**",
             "/user/register/**",
             "/item/**",
             "/payment/paypal/success",
-            "payment/paypal/cancel",
+            "/payment/paypal/cancel",
 //            "/order/status/**",
 //            "/order/management/**"
     };
@@ -51,25 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf()
-                // use JWT instead
-                .disable()
+        httpSecurity
+                .csrf().disable()
+                .cors().disable()
                 .sessionManagement()// no need for session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, // allow unauthorized access to static resources
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                )
-                .permitAll()
-                .antMatchers(AUTH_WHITELIST)// allow anonymous access for given urls
-                .permitAll()
-                .antMatchers(HttpMethod.OPTIONS) //cors
+                .antMatchers("/user/login/**", "/user/register/**", "/item/**", "/payment/paypal/success", "/payment/paypal/cancel")// allow anonymous access for given urls
                 .permitAll()
                 .anyRequest()// authorized any other requests
                 .authenticated();

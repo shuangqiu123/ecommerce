@@ -243,7 +243,7 @@ export default {
     },
     login() {
       return this.axios
-        .post(this.host + "/user/login/normal", {
+        .post( "/user/login/normal", {
           username: this.ruleForm.username,
           password: this.ruleForm.password,
         })

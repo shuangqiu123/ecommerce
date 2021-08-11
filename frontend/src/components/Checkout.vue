@@ -176,7 +176,7 @@ export default {
   methods: {
     loadCart() {
       return this.axios
-        .get(this.host + "/order/user/getCartByUserId", {
+        .get( "/order/user/getCartByUserId", {
           headers: {
             Authorization: this.user.authToken,
           },
@@ -209,7 +209,7 @@ export default {
         }
 
         return this.axios
-          .get(this.host + "/order/user/addAddress", {
+          .get( "/order/user/addAddress", {
             headers: {
               Authorization: this.user.authToken,
             },
@@ -222,7 +222,7 @@ export default {
           .then((_) => {
             return this.axios
               .post(
-                this.host + "/payment/paypal/init",
+                 "/payment/paypal/init",
                 {
                   payerAmount: this.totalPrice,
                   orderId: this.cart.orderId,
@@ -284,7 +284,7 @@ export default {
     sendRequest(timer) {
       setTimeout(() => {
         this.axios
-          .get(this.host + "/payment/checkPayment", {
+          .get( "/payment/checkPayment", {
             headers: {
               Authorization: this.user.authToken,
             },

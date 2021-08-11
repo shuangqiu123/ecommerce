@@ -111,7 +111,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           return this.axios
-            .post(this.host + "/user/register/normal", this.form)
+            .post( "/user/register/normal", this.form)
             .then((result) => {
               console.log(result.data);
 

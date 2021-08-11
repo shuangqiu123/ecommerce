@@ -26,7 +26,7 @@ export default {
   methods: {
     loadOrders() {
       return this.axios
-        .get(this.host + "/order/user/getOrderListByUserId", {
+        .get( "/order/user/getOrderListByUserId", {
           headers: {
             Authorization: this.userDTO.authToken,
           },

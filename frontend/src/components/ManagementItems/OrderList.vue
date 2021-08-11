@@ -67,7 +67,7 @@ export default {
   methods: {
     loadOrders() {
       return this.axios
-        .get(this.host + "/management/order/getAllOrders", {
+        .get( "/management/order/getAllOrders", {
           headers: {
             Authorization: this.admin.authToken,
           },
@@ -108,7 +108,7 @@ export default {
       let status = 3;
 
       return this.axios
-        .get(this.host + "/management/order/changeOrderStatus", {
+        .get( "/management/order/changeOrderStatus", {
           params: {
             orderId: orderId,
             status: status,
@@ -127,7 +127,7 @@ export default {
       let status = 2;
 
       return this.axios
-        .get(this.host + "/management/order/changeOrderStatus", {
+        .get( "/management/order/changeOrderStatus", {
           params: {
             orderId: orderId,
             status: status,

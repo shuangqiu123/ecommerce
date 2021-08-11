@@ -65,7 +65,7 @@ export default {
   methods: {
     getItemList() {
       return this.axios
-        .get(this.host + "/item/getAllItems", {
+        .get( "/item/getAllItems", {
           params: {
             pageNum: 1,
             pageSize: 100,
@@ -83,7 +83,7 @@ export default {
 
     deleteItem(item) {
       return this.axios
-        .get(this.host + "/management/item/deleteItem", {
+        .get( "/management/item/deleteItem", {
           params: {
             itemId: item.id,
           },
