@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/order/user/")
 public class OrderController {

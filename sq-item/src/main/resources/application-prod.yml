@@ -9,6 +9,12 @@ Spring:
     username:
     password:
 
+jwt:
+  secret:
+  expiration: 604800
+  tokenHeader: Authorization
+  tokenHead: Bearer
+
 eureka:
   client:
     serviceUrl:

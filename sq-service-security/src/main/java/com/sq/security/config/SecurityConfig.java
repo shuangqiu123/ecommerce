@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .cors().disable()
+                .cors()
+                .and()
                 .sessionManagement()// no need for session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

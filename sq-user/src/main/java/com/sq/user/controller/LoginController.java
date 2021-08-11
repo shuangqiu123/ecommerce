@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
+@CrossOrigin
 @RestController
 @RequestMapping("/user/login")
 public class LoginController {
