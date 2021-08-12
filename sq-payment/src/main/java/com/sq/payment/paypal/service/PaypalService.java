@@ -7,7 +7,9 @@ import com.sq.dto.PaymentDto;
 import com.sq.payment.feign.OrderFeign;
 import com.sq.payment.mapper.PaymentMapper;
 import com.sq.payment.service.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,16 +18,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class PaypalService implements PaymentService {
+    private final APIContext apiContext;
+    private final PaymentMapper paymentMapper;
+    private final OrderFeign orderFeign;
 
-    @Autowired
-    private APIContext apiContext;
-
-    @Autowired
-    private PaymentMapper paymentMapper;
-
-    @Autowired
-    private OrderFeign orderFeign;
+    @Value("${serverURL}")
+    private String serverURL;
 
     @Override
     public String createPayment(PaymentDto paymentDto) throws PayPalRESTException {
@@ -53,8 +53,8 @@ public class PaypalService implements PaymentService {
         payer.setPaymentMethod("paypal");
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setReturnUrl("https://data.demostore.top/payment/paypal/success");
-        redirectUrls.setCancelUrl("https://data.demostore.top/payment/paypal/cancel");
+        redirectUrls.setReturnUrl(serverURL + "payment/paypal/success");
+        redirectUrls.setCancelUrl(serverURL + "payment/paypal/cancel");
 
         payment.setRedirectUrls(redirectUrls);
 

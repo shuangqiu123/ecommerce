@@ -1,3 +1,10 @@
 spring:
   profiles:
     active: dev
+
+feign:
+  client:
+    config:
+      sq-order:
+        requestInterceptors:
+          - com.sq.management.feign.FeignTokenInterceptor

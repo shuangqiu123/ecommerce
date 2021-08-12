@@ -9,6 +9,8 @@ Spring:
     username: root
     password: 123456
 
+serverURL: http://localhost:4500/
+
 jwt:
   secret: mySecret
   expiration: 604800

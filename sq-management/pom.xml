@@ -14,12 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.sq</groupId>
-            <artifactId>sq-service-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sq</groupId>
             <artifactId>sq-service-security</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
