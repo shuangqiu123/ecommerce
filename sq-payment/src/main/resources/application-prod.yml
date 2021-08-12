@@ -26,7 +26,7 @@ paypal:
 eureka:
   client:
     serviceUrl:
-      defaultZone:
+      defaultZone: http://sq-eureka1.local/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
