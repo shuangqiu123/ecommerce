@@ -9,9 +9,8 @@ Vue.use(ElementUI,{locale});
 
 import axios from 'axios'
 Vue.prototype.axios = axios;
-// axios.defaults.baseURL = "https://data.shuangqiu.blog/";
-axios.defaults.baseURL = "http://localhost:4500/"
-Vue.config.productionTip = false
+axios.defaults.baseURL = process.env.VUE_APP_URL;
+Vue.config.productionTip = false;
 
 new Vue({
   router,

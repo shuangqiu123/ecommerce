@@ -217,7 +217,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data);
           this.cart = res.data.object;
 
           for (let item of this.cart.orderItemList) {
