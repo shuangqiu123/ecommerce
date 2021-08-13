@@ -34,7 +34,7 @@ pipeline {
 		stage('Deploying static dist files to S3') {
 			steps {
 				echo 'deploying to S3'
-				withAWS(credentials: '${ACCOUNT_ID}', region: 'ap-southeast-2') {
+				withAWS(credentials: 'aws-credentials', region: 'ap-southeast-2') {
 					sh 'aws s3 rm "${BUCKET}"'
 					sh 'aws s3 cp "${DIST_PATH}" "${BUCKET}" --recursive --acl public-read'
 				}
