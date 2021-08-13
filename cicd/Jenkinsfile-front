@@ -5,13 +5,13 @@ pipeline {
 		}
 	}
 	environment {
-		DIST_PATH = '/var/jenkins/workspace/demostore-frontend/frontend/dist'
+		DIST_PATH = '/var/lib/jenkins/workspace/demostore-frontend/frontend/dist'
 	}
 	stages {
 		stage('Installing dependencies') {
 			steps {
 				echo "Installing dependencies in package.json"
-                sh 'cd /var/jenkins/workspace/demostore-frontend/frontend'
+                sh 'cd /var/lib/jenkins/workspace/demostore-frontend/frontend'
 				sh 'npm install'
 			}
 		}
