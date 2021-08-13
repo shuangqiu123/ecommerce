@@ -3,7 +3,7 @@ pipeline {
 
 	environment {
 		DIST_PATH = '/var/lib/jenkins/workspace/demostore-frontend/frontend/dist'
-		HOME = '.'
+		BUCKET = 's3://demostore.top'
 	}
 	stages {
 		stage('Installing dependencies') {
