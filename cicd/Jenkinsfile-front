@@ -6,6 +6,7 @@ pipeline {
 	}
 	environment {
 		DIST_PATH = '/var/lib/jenkins/workspace/demostore-frontend/frontend/dist'
+		HOME = '.'
 	}
 	stages {
 		stage('Installing dependencies') {
