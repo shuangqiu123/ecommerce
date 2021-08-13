@@ -1,9 +1,6 @@
 pipeline {
-	agent {
-		docker {
-			image 'node:12.13.0'
-		}
-	}
+	agent any
+
 	environment {
 		DIST_PATH = '/var/lib/jenkins/workspace/demostore-frontend/frontend/dist'
 		HOME = '.'
@@ -23,15 +20,6 @@ pipeline {
 				dir('./frontend') {
 					sh 'npm run build'
 				}
-			}
-		}
-
-		stage('Installing AWS CLI') {
-			steps {
-				echo "Installing AWS CLI"
-				sh 'sudo apt-get update'
-				sh 'sudo apt install python3-pip -y'
-				sh 'sudo pip3 install awscli --upgrade'
 			}
 		}
 
