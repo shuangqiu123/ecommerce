@@ -11,7 +11,7 @@ pipeline {
 		stage('Installing dependencies') {
 			steps {
 				echo "Installing dependencies in package.json"
-                sh 'cd ./frontend'
+                sh 'cd /var/jenkins_home/workspace/demostore-frontend/frontend'
 				sh 'npm install'
 			}
 		}
