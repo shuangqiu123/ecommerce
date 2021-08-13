@@ -10,7 +10,7 @@ pipeline {
 	stages {
 		stage('Installing dependencies') {
 			steps {
-				dir('./frontend) {
+				dir('./frontend') {
 					echo "Installing dependencies in package.json"
 					sh 'npm install'
 				}
@@ -19,7 +19,7 @@ pipeline {
 
 		stage('Build dist files') {
 			steps {
-				dir('./frontend) {
+				dir('./frontend') {
 					sh 'npm run build'
 				}
 			}
