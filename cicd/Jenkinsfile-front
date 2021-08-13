@@ -29,9 +29,9 @@ pipeline {
 		stage('Installing AWS CLI') {
 			steps {
 				echo "Installing AWS CLI"
-				sh 'apt-get update'
-				sh 'apt install python3-pip -y'
-				sh 'pip3 install awscli --upgrade'
+				sh 'sudo apt-get update'
+				sh 'sudo apt install python3-pip -y'
+				sh 'sudo pip3 install awscli --upgrade'
 			}
 		}
 
