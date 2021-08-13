@@ -12,7 +12,7 @@ pipeline {
 			steps {
 				dir('./frontend') {
 					echo "Installing dependencies in package.json"
-					sh 'npm cache clean --force'
+					sh 'chown -R 113:119 "/.npm"'
 					sh 'npm install'
 				}
 			}
