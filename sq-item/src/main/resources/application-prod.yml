@@ -20,6 +20,7 @@ eureka:
     serviceUrl:
       defaultZone: http://sq-eureka3.local/eureka/
   instance:
-    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}:@project.version@
     hostname: sq-item.local
     non-secure-port: ${server.port}
+    non-secure-port-enabled: true
+    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}:@project.version@
