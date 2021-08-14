@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/item/**",
             "/payment/paypal/success",
             "/payment/paypal/cancel",
-//            "/order/status/**",
-//            "/order/management/**"
+            "/order/status/**",
+            "/order/management/**"
     };
 
 
@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/login/**", "/user/register/**", "/item/**", "/payment/paypal/success", "/payment/paypal/cancel")// allow anonymous access for given urls
+                .antMatchers(AUTH_WHITELIST)// allow anonymous access for given urls
                 .permitAll()
                 .anyRequest()// authorized any other requests
                 .authenticated();
