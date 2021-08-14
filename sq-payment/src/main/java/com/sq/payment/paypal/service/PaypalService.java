@@ -6,6 +6,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import com.sq.dto.PaymentDto;
 import com.sq.payment.feign.OrderFeign;
 import com.sq.payment.mapper.PaymentMapper;
+import com.sq.payment.paypal.config.PaypalConfig;
 import com.sq.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,17 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PaypalService implements PaymentService {
-    private final APIContext apiContext;
+
     private final PaymentMapper paymentMapper;
     private final OrderFeign orderFeign;
+    private final PaypalConfig paypalConfig;
+
 
     @Value("${serverURL}")
     private String serverURL;
 
     @Override
-    public String createPayment(PaymentDto paymentDto) throws PayPalRESTException {
+    public String createPayment(PaymentDto paymentDto) {
         // send payment to paypal
         Amount amount = new Amount("AUD", paymentDto.getPayerAmount().toString());
 
@@ -58,7 +61,12 @@ public class PaypalService implements PaymentService {
 
         payment.setRedirectUrls(redirectUrls);
 
-        Payment newPayment = payment.create(apiContext);
+        Payment newPayment = null;
+        try {
+            newPayment = payment.create(paypalConfig.getApiContext());
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
 
         // insert payment info in DTO
         paymentDto.setId(UUID.randomUUID().toString());
@@ -87,7 +95,7 @@ public class PaypalService implements PaymentService {
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
 
-        return payment.execute(apiContext, paymentExecute);
+        return payment.execute(paypalConfig.getApiContext(), paymentExecute);
     }
 
     @Override
