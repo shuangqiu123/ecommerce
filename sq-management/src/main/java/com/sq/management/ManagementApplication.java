@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @MapperScan({"com.sq.management.mapper", "com.sq.security.mapper"})
-@ComponentScan({"com.sq.util", "com.sq.security","com.sq.management"})
+@ComponentScan({"com.sq.security","com.sq.management"})
 @EnableEurekaClient
 @EnableFeignClients
 public class ManagementApplication {

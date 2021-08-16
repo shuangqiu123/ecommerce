@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @MapperScan({"com.sq.item.mapper", "com.sq.security.mapper"})
-@ComponentScan({"com.sq.util", "com.sq.security","com.sq.item"})
+@ComponentScan({"com.sq.security","com.sq.item"})
 @EnableEurekaClient
 public class ItemApplication {
 

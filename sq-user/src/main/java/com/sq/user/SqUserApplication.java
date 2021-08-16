@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @MapperScan({"com.sq.user.mapper", "com.sq.security.mapper"})
-@ComponentScan({"com.sq.util", "com.sq.security","com.sq.user"})
+@ComponentScan({"com.sq.security","com.sq.user"})
 @EnableDiscoveryClient
 public class SqUserApplication {
 
