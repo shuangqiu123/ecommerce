@@ -18,7 +18,7 @@ Management System: https://demostore.top/management
 ecommerce
 ├── cicd
 	├── Jenkinsfile-front -- Jenkins pipeline to build, test, and deploy frontend to S3
-	├── Jenkins-back0build-script.sh -- Jenkins Freestyle project to build and deploy docker images to ECR, 
+	├── Jenkins-back-build-script.sh -- Jenkins Freestyle project to build and deploy docker images to ECR, 
 					 -- used as Build Stage in AWS CodePipeline
 ├── sq-eureka -- Service Registry Center
 ├── sq-common -- contains tools and pojo
