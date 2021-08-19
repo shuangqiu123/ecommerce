@@ -44,7 +44,7 @@ ecommerce
 
 - Spring Boot
 - Spring Security
-- Spring Cloud Netflix Eureka Eureka
+- Spring Cloud Netflix Eureka
 - Spring MVC
 - JWT
 - Lombok
