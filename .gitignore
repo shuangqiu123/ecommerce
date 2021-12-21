@@ -34,3 +34,6 @@ build/
 
 ### secret
 /sq-payment/src/main/resources/application.yml
+
+*.sql
+*.drawio

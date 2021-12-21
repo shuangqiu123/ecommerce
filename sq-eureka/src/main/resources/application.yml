@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: sq-eureka
-  profiles:
-    active: dev
