@@ -24,8 +24,8 @@ public class PaypalService implements PaymentService {
     private final PaypalConfig paypalConfig;
     private final OrderService orderService;
 
-    @Value("${serverURL}")
-    private String serverURL;
+    @Value("${paypal.redirectURL}")
+    private String redirectURL;
 
     @Override
     public String createPayment(PaymentDto paymentDto) {
@@ -53,8 +53,8 @@ public class PaypalService implements PaymentService {
         payer.setPaymentMethod("paypal");
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setReturnUrl(serverURL + "payment/paypal/success");
-        redirectUrls.setCancelUrl(serverURL + "payment/paypal/cancel");
+        redirectUrls.setReturnUrl(redirectURL + "payment/paypal/success");
+        redirectUrls.setCancelUrl(redirectURL + "payment/paypal/cancel");
 
         payment.setRedirectUrls(redirectUrls);
 
