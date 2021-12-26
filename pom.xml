@@ -7,14 +7,7 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>sq-service-common</module>
-        <module>sq-user</module>
-        <module>sq-item</module>
-        <module>sq-order</module>
-        <module>sq-service-security</module>
-        <module>sq-eureka</module>
-        <module>sq-payment</module>
-        <module>sq-management</module>
+        <module>demostore</module>
     </modules>
     <name>ecommerce</name>
 
