@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/user/register")
 public class RegisterController {
     private final UserService userService;

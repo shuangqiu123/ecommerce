@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final AccessDeniedHandler restfulAccessDeniedHandler;
     private final AuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final PasswordEncoder passwordEncoder;
 
     private static final String[] AUTH_WHITELIST = {
             "/user/login/**",
@@ -77,12 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+                .passwordEncoder(passwordEncoder);
     }
 
     @Bean

@@ -3,12 +3,9 @@ import com.sq.dto.ResponseMessage;
 import com.sq.pojo.Member;
 import com.sq.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@CrossOrigin
 @RestController
 @RequestMapping("/user/login")
 public class LoginController {

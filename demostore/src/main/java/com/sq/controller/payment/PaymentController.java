@@ -5,22 +5,21 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.sq.dto.PaymentDto;
 import com.sq.dto.ResponseMessage;
-import com.sq.payment.service.PaymentService;
+import com.sq.service.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin
+@RequiredArgsConstructor
 @RequestMapping("/payment")
 public class PaymentController {
 
-    @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/order/status")
 public class OrderStatusController {

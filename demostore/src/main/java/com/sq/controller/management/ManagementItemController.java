@@ -1,7 +1,8 @@
 package com.sq.controller.management;
 
 import com.sq.dto.ResponseMessage;
-import com.sq.service.OrderService;
+import com.sq.service.ItemService;
+import com.sq.pojo.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,31 +10,32 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/management/order")
-public class OrderController {
-    private final OrderService orderService;
+@RequestMapping("/management/item")
+public class ManagementItemController {
 
-    @GetMapping("/getAllOrders")
-    public ResponseMessage getAllOrders(HttpServletRequest request) {
+    private final ItemService itemService;
+
+    @GetMapping("/deleteItem")
+    public ResponseMessage deleteItem(@RequestParam("itemId") Long id, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
 
         if (getUid(request) != 5) {
             responseMessage.setCode(401);
             return responseMessage;
         }
-
-        responseMessage.setObject(orderService.getAllOrders());
+        itemService.deleteItem(id);
         return responseMessage;
     }
 
-    @GetMapping("/changeOrderStatus")
-    public ResponseMessage changeOrderStatus(@RequestParam("orderId") String orderId, @RequestParam("status") Integer status, HttpServletRequest request) {
+    @PostMapping("/insertItem")
+    public ResponseMessage insertItem(@RequestBody Item item, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
         if (getUid(request) != 5) {
             responseMessage.setCode(401);
             return responseMessage;
         }
-        orderService.setOrderStatus(orderId, status);
+
+        itemService.insertItem(item);
 
         responseMessage.setMessage("success");
         return responseMessage;
