@@ -1,6 +1,5 @@
 package com.sq.service.impl;
 
-import com.sq.dto.ResponseMessage;
 import com.sq.service.ItemService;
 import com.sq.mapper.OrderItemMapper;
 import com.sq.mapper.OrderMapper;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
