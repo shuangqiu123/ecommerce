@@ -21,7 +21,6 @@ workflows:
   backend-deployment-workflow:
     jobs:
       - backend-testing:
-          type: approval
           filters:
             branches:
               only: master
