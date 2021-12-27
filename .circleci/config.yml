@@ -15,7 +15,33 @@ jobs:
             -Dspring.datasource.url=$url \
             -Dspring.datasource.username=$username \
             -Dspring.datasource.password=$password
-
+  backend-deployment:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: "Upload Dockerrun AWS JSON"
+          command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
+            sed -i "s~<AWS_ECR_ACCOUNT_URL>~$AWS_ECR_ACCOUNT_URL~g" ./scripts/Dockerrun.aws.json
+            sed -i "s~<ECR_REPO_NAME>~$ECR_REPO_NAME~g" ./scripts/Dockerrun.aws.json
+            sed -i "s~<TAG>~$TAG~g" ./scripts/Dockerrun.aws.json
+            aws s3 cp ./scripts/Dockerrun.aws.json s3://$S3_EB_BUCKET/Dockerrun.aws.json
+      - run:
+          name: "Create Application Version"
+          command: |
+            aws elasticbeanstalk create-application-version \
+            --application-name $APP_NAME \
+            --version-label $TAG \
+            --source-bundle S3Bucket=$S3_EB_BUCKET, S3Key=Dockerrun.aws.json
+      - run:
+          name: "Update EB Environment"
+          command: |
+            aws elasticbeanstalk update-environment \
+            --application-name $APP_NAME \
+            --environment-name $ENV_NAME \
+            --version-label=$TAG
 
 workflows:
   backend-deployment-workflow:

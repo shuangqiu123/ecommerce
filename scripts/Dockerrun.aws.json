@@ -1,0 +1,11 @@
+{
+  "AWSEBDockerrunVersion": 1,
+  "Image": {
+    "Name": "<AWS_ECR_ACCOUNT_URL>/<ECR_REPO_NAME>:<TAG>"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 5000
+    }
+  ]
+}
