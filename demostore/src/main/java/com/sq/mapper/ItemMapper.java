@@ -18,4 +18,6 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     List<Item> selectAllItems();
+
+    void deleteAll();
 }
