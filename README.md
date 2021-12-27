@@ -1,5 +1,7 @@
 # Demo Store
 
+[![<ORG_NAME>](https://circleci.com/gh/shuangqiu123/ecommerce.svg?style=shield)](<https://app.circleci.com/pipelines/github/shuangqiu123/ecommerce>)
+
 Demo website URL: https://demostore.top
 
 Management System: https://demostore.top/management
