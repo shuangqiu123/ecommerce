@@ -14,7 +14,7 @@ CREATE TABLE `member` (
      `description` varchar(500),
      `points` int(11) DEFAULT '0',
      `balance` decimal(10,2) DEFAULT '0.00',
-     isverified varchar(26) DEFAULT 'N',
+     `isverified` varchar(26) DEFAULT 'N',
      PRIMARY KEY (`id`),
      UNIQUE KEY `username` (`username`) USING BTREE,
      UNIQUE KEY `phone` (`phone`) USING BTREE,

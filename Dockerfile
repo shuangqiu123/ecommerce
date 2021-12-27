@@ -1,7 +1,12 @@
-FROM openjdk:11
+FROM maven:3.8.4-jdk-11
 WORKDIR /workspace/app
-VOLUME /tmp
-ADD /sq-item/target/sq-item-0.0.1-SNAPSHOT.jar /workspace/app/app.jar
-ADD /scripts/script.sh /workspace/app/script.sh
-RUN chmod +x /workspace/app/script.sh
-ENTRYPOINT ["sh", "-c", "/workspace/app/script.sh"]
+
+COPY /demostore demostore
+COPY /pom.xml   pom.xml
+
+COPY /scripts/startup.sh startup.sh
+RUN chmod +x startup.sh
+
+RUN mvn clean package -Dmaven.test.skip
+
+ENTRYPOINT ["sh", "-c", "startup.sh"]
