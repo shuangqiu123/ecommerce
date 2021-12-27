@@ -23,4 +23,4 @@ workflows:
           requires:
             - backend-testing
           repo: "${ECR_REPO_NAME}"
-          tag: "${CIRCLE_SHA1}"
+          tag: "$(echo $CIRCLE_SHA1 | cut -c -5)"
