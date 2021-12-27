@@ -9,7 +9,13 @@ jobs:
       - checkout
       - run:
           name: "Run backend unit testing"
-          command: "mvn test"
+          command: |
+            mvn test \
+            -Dspring.profiles.active=test \
+            -Dspring.datasource.url=$url \
+            -Dspring.datasource.username=$username \
+            -Dspring.datasource.password=$password
+
 
 workflows:
   backend-deployment-workflow:
