@@ -1,6 +1,5 @@
 package com.sq.controller.item;
 import com.github.pagehelper.PageInfo;
-import com.sq.dto.ItemDto;
 import com.sq.pojo.Item;
 import com.sq.service.ItemService;
 import org.junit.jupiter.api.DisplayName;
@@ -31,10 +30,9 @@ public class ItemControllerTest {
     @Test
     @DisplayName("get all items should return paginated item list")
     public void getAllItemsShouldReturnPaginatedItems() throws Exception {
-        ItemDto itemDto = new ItemDto(50, 1);
         PageInfo<Item> paginatedItems = new PageInfo<>();
 
-        given(itemService.selectAllItemsByPage(itemDto)).willReturn(paginatedItems);
+        given(itemService.selectAllItemsByPage(50, 1)).willReturn(paginatedItems);
 
         mockMvc.perform(get("/item/getAllItems?pageNum=50&pageSize=1")
                 .contentType(MediaType.APPLICATION_JSON))

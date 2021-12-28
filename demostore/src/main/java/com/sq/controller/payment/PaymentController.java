@@ -3,7 +3,7 @@ package com.sq.controller.payment;
 
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import com.sq.dto.PaymentDto;
+import com.sq.dto.payment.PaymentDto;
 import com.sq.dto.ResponseMessage;
 import com.sq.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class PaymentController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("/paypal/init")
-    public ResponseMessage initPaypalPayment(@RequestBody PaymentDto paymentDto, HttpServletRequest request) throws Exception{
+    public ResponseMessage initPaypalPayment(@RequestBody @Valid PaymentDto paymentDto, HttpServletRequest request) throws Exception{
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setCode(200);
 
@@ -54,7 +55,7 @@ public class PaymentController {
             logger.error(e.getMessage());
         }
 
-        return "<!DOCTYPE html><html><script>window.close();</script></html>";
+        return "success";
     }
 
 

@@ -1,6 +1,5 @@
 package com.sq.service;
 import com.github.pagehelper.PageInfo;
-import com.sq.dto.ItemDto;
 import com.sq.mapper.ItemMapper;
 import com.sq.pojo.Item;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +35,7 @@ public class ItemServiceTest {
         List<Item> items = List.of(item1, item2);
         given(itemMapper.selectAllItems()).willReturn(items);
 
-        PageInfo<Item> result = itemService.selectAllItemsByPage(new ItemDto(50, 1));
+        PageInfo<Item> result = itemService.selectAllItemsByPage(50, 1);
         assertEquals(items, result.getList());
     }
 

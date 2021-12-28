@@ -2,7 +2,6 @@ package com.sq.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sq.dto.ItemDto;
 import com.sq.mapper.ItemMapper;
 import com.sq.service.ItemService;
 import com.sq.pojo.Item;
@@ -19,8 +18,8 @@ public class ItemServiceImpl implements ItemService {
 
     // page split
     @Override
-    public PageInfo selectAllItemsByPage(ItemDto itemDto) {
-        PageHelper.startPage(itemDto.getPageNum(), itemDto.getPageSize());
+    public PageInfo selectAllItemsByPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Item> items = itemMapper.selectAllItems();
         PageInfo<Item> pageInfo =new PageInfo<>(items);
         return pageInfo;

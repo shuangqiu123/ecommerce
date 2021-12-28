@@ -1,13 +1,12 @@
 package com.sq.service;
 
 import com.github.pagehelper.PageInfo;
-import com.sq.dto.ItemDto;
 import com.sq.pojo.Item;
 
 
 public interface ItemService {
 
-    PageInfo selectAllItemsByPage(ItemDto itemDto);
+    PageInfo selectAllItemsByPage(Integer pageNum, Integer pageSize);
 
     Item getItemById(Long id);
 
