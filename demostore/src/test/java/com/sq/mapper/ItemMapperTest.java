@@ -20,8 +20,9 @@ public class ItemMapperTest {
     @Autowired
     private ItemMapper itemMapper;
 
-    @BeforeEach
-    public void init() {
+    @Test
+    @DisplayName("select all items should return all items")
+    public void selectAllItems() {
         Item item1 = new Item();
         item1.setId(0l);
         item1.setNum(10);
@@ -36,18 +37,9 @@ public class ItemMapperTest {
         item2.setStatus(0);
         itemMapper.insert(item1);
         itemMapper.insert(item2);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        itemMapper.deleteAll();
-    }
-
-    @Test
-    @DisplayName("select all items should return all items")
-    public void selectAllItems() {
         List<Item> items = itemMapper.selectAllItems();
         assertEquals(2, items.size());
+        itemMapper.deleteAll();
     }
 
     @Test
@@ -61,11 +53,19 @@ public class ItemMapperTest {
         item1.setStatus(0);
         int insert = itemMapper.insert(item1);
         assertEquals(1, insert);
+        itemMapper.deleteAll();
     }
 
     @Test
     @DisplayName("deleteByPrimaryKey should delete item by id")
     public void delete() {
+        Item item1 = new Item();
+        item1.setId(0l);
+        item1.setNum(10);
+        item1.setPrice(new BigDecimal(10));
+        item1.setSellPoint("123");
+        item1.setStatus(0);
+        itemMapper.insert(item1);
         List<Item> items = itemMapper.selectAllItems();
         int i = itemMapper.deleteByPrimaryKey(items.get(0).getId());
         assertEquals(1, i);
