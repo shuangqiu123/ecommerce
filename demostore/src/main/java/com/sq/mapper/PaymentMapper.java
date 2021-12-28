@@ -1,6 +1,6 @@
 package com.sq.mapper;
 
-import com.sq.dto.PaymentDto;
+import com.sq.dto.payment.PaymentDto;
 import com.sq.pojo.Payment;
 
 import java.util.List;

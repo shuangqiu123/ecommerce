@@ -1,14 +1,17 @@
 package com.sq.controller.order;
 
 import com.sq.dto.ResponseMessage;
+import com.sq.dto.order.OrderItemPostDto;
 import com.sq.service.OrderService;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
 import com.sq.pojo.OrderShipping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,19 +35,25 @@ public class OrderController {
 
 
     @PostMapping("/addItem")
-    public ResponseMessage addItem(@RequestBody OrderItem orderItem, HttpServletRequest request) {
+    public ResponseMessage addItem(@RequestBody @Valid OrderItemPostDto orderItemPostDto, HttpServletRequest request) {
+        OrderItem orderItem = new OrderItem();
+        BeanUtils.copyProperties(orderItemPostDto, orderItem);
         orderService.insertCartItem(this.getUid(request), orderItem);
         return new ResponseMessage(200, "success", null);
     }
 
     @PostMapping("/updateItem")
-    public ResponseMessage updateItem(@RequestBody OrderItem orderItem, HttpServletRequest request) {
+    public ResponseMessage updateItem(@RequestBody @Valid OrderItemPostDto orderItemPostDto, HttpServletRequest request) {
+        OrderItem orderItem = new OrderItem();
+        BeanUtils.copyProperties(orderItemPostDto, orderItem);
         orderService.updateCartItem(this.getUid(request), orderItem);
         return new ResponseMessage(200, "success", null);
     }
 
     @PostMapping("/removeItem")
-    public ResponseMessage removeItem(@RequestBody OrderItem orderItem, HttpServletRequest request) {
+    public ResponseMessage removeItem(@RequestBody @Valid OrderItemPostDto orderItemPostDto, HttpServletRequest request) {
+        OrderItem orderItem = new OrderItem();
+        BeanUtils.copyProperties(orderItemPostDto, orderItem);
         orderService.removeCartItem(this.getUid(request), orderItem);
         return new ResponseMessage(200, "success", null);
     }

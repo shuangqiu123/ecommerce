@@ -2,7 +2,7 @@ package com.sq.service;
 
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import com.sq.dto.PaymentDto;
+import com.sq.dto.payment.PaymentDto;
 
 public interface PaymentService {
     String createPayment(PaymentDto payment) throws PayPalRESTException;

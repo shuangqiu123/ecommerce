@@ -1,12 +1,15 @@
 package com.sq.controller.management;
 
 import com.sq.dto.ResponseMessage;
-import com.sq.service.ItemService;
+import com.sq.dto.item.ItemDto;
 import com.sq.pojo.Item;
+import com.sq.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,13 +31,14 @@ public class ManagementItemController {
     }
 
     @PostMapping("/insertItem")
-    public ResponseMessage insertItem(@RequestBody Item item, HttpServletRequest request) {
+    public ResponseMessage insertItem(@RequestBody @Valid ItemDto itemDto, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
         if (getUid(request) != 5) {
             responseMessage.setCode(401);
             return responseMessage;
         }
-
+        Item item = new Item();
+        BeanUtils.copyProperties(itemDto, item);
         itemService.insertItem(item);
 
         responseMessage.setMessage("success");

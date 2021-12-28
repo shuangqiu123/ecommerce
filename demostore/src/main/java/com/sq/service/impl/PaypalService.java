@@ -2,7 +2,7 @@ package com.sq.service.impl;
 
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.PayPalRESTException;
-import com.sq.dto.PaymentDto;
+import com.sq.dto.payment.PaymentDto;
 import com.sq.mapper.PaymentMapper;
 import com.sq.config.PaypalConfig;
 import com.sq.service.OrderService;

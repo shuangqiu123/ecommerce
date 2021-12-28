@@ -1,7 +1,6 @@
 package com.sq.controller.item;
 
 import com.github.pagehelper.PageInfo;
-import com.sq.dto.ItemDto;
 import com.sq.dto.ResponseMessage;
 import com.sq.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +15,7 @@ public class ItemController {
 
     @GetMapping("/getAllItems")
     public ResponseMessage getAllItems(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-        ItemDto itemDto = new ItemDto();
-        itemDto.setPageNum(pageNum);
-        itemDto.setPageSize(pageSize);
-        PageInfo pageInfo = itemService.selectAllItemsByPage(itemDto);
+        PageInfo pageInfo = itemService.selectAllItemsByPage(pageNum, pageSize);
 
         return new ResponseMessage(200,"success", pageInfo);
     }

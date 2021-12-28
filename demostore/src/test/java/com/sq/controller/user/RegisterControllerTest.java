@@ -36,11 +36,10 @@ public class RegisterControllerTest {
         Member returnedMember = new Member();
         member.setUsername("newUser");
         returnedMember.setUsername("newUser");
-        member.setPassword("123456");
+        member.setPassword("abc123456");
         returnedMember.setPassword("$2a$10$a04BQtyY3vWypNJQBn4ox.eiIy/dg5kFsMT8gC22JXhRcUMq9MkkK");
         member.setEmail("user123@123.com");
         returnedMember.setEmail("user123@123.com");
-        member.setRole(0);
         returnedMember.setRole(0);
 
         given(userService.register(member))
@@ -52,8 +51,7 @@ public class RegisterControllerTest {
                 .content("{\n" +
                         "    \"email\":\"user123@123.com\",\n" +
                         "    \"username\": \"newUser\",\n" +
-                        "    \"password\": \"123456\",\n" +
-                        "    \"role\": 0\n" +
+                        "    \"password\": \"abc123456\"\n" +
                         "}")
                 .characterEncoding("utf-8"))
                 .andExpect(status().isOk())
