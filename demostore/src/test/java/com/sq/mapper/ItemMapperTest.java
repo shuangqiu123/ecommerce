@@ -26,6 +26,7 @@ public class ItemMapperTest {
     @Test
     @DisplayName("select all items should return all items")
     @Rollback(false)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void selectAllItems() {
         Item item1 = new Item();
         item1.setId(0l);
@@ -49,6 +50,7 @@ public class ItemMapperTest {
     @Test
     @Rollback(false)
     @DisplayName("insert should insert an item")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void insert() {
         Item item1 = new Item();
         item1.setId(3l);
@@ -64,16 +66,16 @@ public class ItemMapperTest {
     @Test
     @DisplayName("deleteByPrimaryKey should delete item by id")
     @Rollback(false)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void delete() {
         Item item1 = new Item();
-        item1.setId(0l);
+        item1.setId(4l);
         item1.setNum(10);
         item1.setPrice(new BigDecimal(10));
         item1.setSellPoint("123");
         item1.setStatus(0);
         itemMapper.insert(item1);
-        List<Item> items = itemMapper.selectAllItems();
-        int i = itemMapper.deleteByPrimaryKey(items.get(0).getId());
+        int i = itemMapper.deleteByPrimaryKey(4l);
         assertEquals(1, i);
     }
 }
