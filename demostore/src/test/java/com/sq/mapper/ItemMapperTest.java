@@ -1,10 +1,10 @@
 package com.sq.mapper;
 
 import com.sq.pojo.Item;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +20,7 @@ public class ItemMapperTest {
     @Autowired
     private ItemMapper itemMapper;
 
-    @Before
+    @BeforeEach
     public void init() {
         Item item1 = new Item();
         item1.setId(0l);
@@ -38,17 +38,17 @@ public class ItemMapperTest {
         itemMapper.insert(item2);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         itemMapper.deleteAll();
     }
 
-//    @Test
-//    @DisplayName("select all items should return all items")
-//    public void selectAllItems() {
-//        List<Item> items = itemMapper.selectAllItems();
-//        assertEquals(2, items.size());
-//    }
+    @Test
+    @DisplayName("select all items should return all items")
+    public void selectAllItems() {
+        List<Item> items = itemMapper.selectAllItems();
+        assertEquals(2, items.size());
+    }
 
     @Test
     @DisplayName("insert should insert an item")

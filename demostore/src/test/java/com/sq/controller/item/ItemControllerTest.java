@@ -3,7 +3,7 @@ import com.github.pagehelper.PageInfo;
 import com.sq.pojo.Item;
 import com.sq.service.ItemService;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
