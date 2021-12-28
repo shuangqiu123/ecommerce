@@ -43,12 +43,12 @@ public class ItemMapperTest {
         itemMapper.deleteAll();
     }
 
-    @Test
-    @DisplayName("select all items should return all items")
-    public void selectAllItems() {
-        List<Item> items = itemMapper.selectAllItems();
-        assertEquals(2, items.size());
-    }
+//    @Test
+//    @DisplayName("select all items should return all items")
+//    public void selectAllItems() {
+//        List<Item> items = itemMapper.selectAllItems();
+//        assertEquals(2, items.size());
+//    }
 
     @Test
     @DisplayName("insert should insert an item")
