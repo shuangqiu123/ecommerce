@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +24,7 @@ public class ItemMapperTest {
 
     @Test
     @DisplayName("select all items should return all items")
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void selectAllItems() {
         Item item1 = new Item();
         item1.setId(0l);
@@ -43,6 +46,7 @@ public class ItemMapperTest {
     }
 
     @Test
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @DisplayName("insert should insert an item")
     public void insert() {
         Item item1 = new Item();
@@ -58,6 +62,7 @@ public class ItemMapperTest {
 
     @Test
     @DisplayName("deleteByPrimaryKey should delete item by id")
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void delete() {
         Item item1 = new Item();
         item1.setId(0l);
