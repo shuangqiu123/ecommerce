@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class ItemMapperTest {
 
     @Test
     @DisplayName("select all items should return all items")
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Rollback(false)
     public void selectAllItems() {
         Item item1 = new Item();
         item1.setId(0l);
@@ -46,7 +47,7 @@ public class ItemMapperTest {
     }
 
     @Test
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Rollback(false)
     @DisplayName("insert should insert an item")
     public void insert() {
         Item item1 = new Item();
@@ -62,7 +63,7 @@ public class ItemMapperTest {
 
     @Test
     @DisplayName("deleteByPrimaryKey should delete item by id")
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Rollback(false)
     public void delete() {
         Item item1 = new Item();
         item1.setId(0l);
