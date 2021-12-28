@@ -43,7 +43,10 @@ public class ItemMapperTest {
         itemMapper.insert(item1);
         itemMapper.insert(item2);
         List<Item> items = itemMapper.selectAllItems();
-        assertEquals(2, items.size());
+        Item returnedItem1 = items.get(0);
+        Item returnedItem2 = items.get(1);
+        assertEquals(Long.valueOf(0L), returnedItem1.getId());
+        assertEquals(Long.valueOf(1L), returnedItem2.getId());
         itemMapper.deleteAll();
     }
 
