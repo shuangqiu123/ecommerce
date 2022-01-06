@@ -2,7 +2,7 @@ use ecommerce1;
 CREATE TABLE `member` (
      `id` bigint(20) NOT NULL AUTO_INCREMENT,
      `username` varchar(50) NOT NULL,
-     `password` varchar(32) NOT NULL,
+     `password` varchar(256) NOT NULL,
      `phone` varchar(20) DEFAULT NULL,
      `email` varchar(50) DEFAULT NULL,
      `created` datetime NOT NULL,
@@ -15,6 +15,7 @@ CREATE TABLE `member` (
      `points` int(11) DEFAULT '0',
      `balance` decimal(10,2) DEFAULT '0.00',
      `isverified` varchar(26) DEFAULT 'N',
+     `role` int(1) DEFAULT '0',
      PRIMARY KEY (`id`),
      UNIQUE KEY `username` (`username`) USING BTREE,
      UNIQUE KEY `phone` (`phone`) USING BTREE,
