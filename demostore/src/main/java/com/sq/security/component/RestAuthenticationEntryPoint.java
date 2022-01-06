@@ -2,6 +2,7 @@ package com.sq.security.component;
 
 import cn.hutool.json.JSONUtil;
 import com.sq.dto.ResponseMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        ResponseMessage responseMessage = new ResponseMessage(200, "invalid token", null);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.UNAUTHORIZED.value(), "unauthorized request", null);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().println(JSONUtil.parse(responseMessage));
         response.getWriter().flush();
     }

@@ -1,5 +1,6 @@
 server:
   port: 9200
+  frontendURL: http://localhost:3000
 Spring:
   application:
     name: demostore
@@ -10,6 +11,8 @@ Spring:
     password: 123456
   flyway:
     enabled: false
+  sendgrid:
+    api-key:
 jwt:
   secret: mySecret
   expiration: 604800

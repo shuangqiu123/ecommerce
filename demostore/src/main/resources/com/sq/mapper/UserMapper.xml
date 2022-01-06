@@ -22,10 +22,11 @@
     <result column="points" jdbcType="INTEGER" property="points" />
     <result column="balance" jdbcType="DECIMAL" property="balance" />
     <result column="isverified" jdbcType="VARCHAR" property="isverified" />
+    <result column="role" jdbcType="INTEGER" property="role" />
   </resultMap>
   <sql id="Base_Column_List">
     id, username, `password`, phone, email, created, updated, sex, address, `state`,
-    `file`, description, points, balance, isverified
+    `file`, description, points, balance, isverified, role
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -33,7 +34,10 @@
     from member
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectByEmail" parameterType="string" resultMap="BaseResultMap">
+      select * from member where email=#{email}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from member
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -42,13 +46,14 @@
       phone, email, created,
       updated, sex, address,
       `state`, `file`, description,
-      points, balance, isverified
+      points, balance, isverified, role
       )
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP}, #{sex,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
       #{state,jdbcType=INTEGER}, #{file,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
-      #{points,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, #{isverified,jdbcType=VARCHAR}
+      #{points,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, #{isverified,jdbcType=VARCHAR},
+      #{role,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sq.pojo.Member">
@@ -99,6 +104,9 @@
       <if test="isverified != null">
         isverified,
       </if>
+      <if test="role != null">
+        role,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -146,6 +154,9 @@
       <if test="isverified != null">
         #{isverified,jdbcType=VARCHAR},
       </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sq.pojo.Member">
@@ -192,6 +203,9 @@
       </if>
       <if test="isverified != null">
         isverified = #{isverified,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        isverified = #{role,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

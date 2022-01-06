@@ -38,11 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
             "/user/login/**",
             "/user/register/**",
+            "/user/forgotPassword",
             "/item/**",
             "/payment/paypal/success",
             "/payment/paypal/cancel",
             "/order/status/**",
-            "/order/management/**"
+            "/order/management/**",
+            "/actuator/**",
     };
 
 
@@ -50,11 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .cors()
-                .and()
                 .sessionManagement()// no need for session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .cors()
+                .and()
+                .addFilterBefore(
+                        jwtAuthenticationTokenFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST)// allow anonymous access for given urls
                 .permitAll()
@@ -64,11 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // disable http cache
         httpSecurity.headers().cacheControl();
-
-        // add JWT Filter
-        httpSecurity.addFilterBefore(
-                jwtAuthenticationTokenFilter(),
-                UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)

@@ -1,5 +1,6 @@
 package com.sq.controller.user;
 
+import com.sq.dto.ResponseMessage;
 import com.sq.pojo.Member;
 import com.sq.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.HashMap;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,9 +44,10 @@ public class RegisterControllerTest {
         member.setEmail("user123@123.com");
         returnedMember.setEmail("user123@123.com");
         returnedMember.setRole(0);
+        ResponseMessage responseMessage = new ResponseMessage(200, "success", returnedMember, new HashMap<>());
 
         given(userService.register(member))
-                .willReturn(returnedMember);
+                .willReturn(responseMessage);
 
         // When
         mockMvc.perform(post("/user/register/normal")

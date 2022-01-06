@@ -1,5 +1,6 @@
 server:
   port: 5000
+  frontendURL: http://localhost:3000
 Spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -14,6 +15,8 @@ Spring:
     encoding: UTF-8
     out-of-order: false
     validate-on-migrate: true
+  sendgrid:
+    api-key: ${API_KEY}
 
 jwt:
   secret: mySecret
