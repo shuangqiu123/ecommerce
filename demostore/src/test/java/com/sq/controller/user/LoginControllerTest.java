@@ -70,6 +70,6 @@ public class LoginControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" + "\"username\":\"abcde123456\",\n" + "\"password\":\"abcde123456\"\n" + "}")
                 .characterEncoding("utf-8"))
-                .andExpect(jsonPath("$.message").value("login unsuccessful"));
+                .andExpect(jsonPath("$.errors.username").value("Username or password unmatched."));
     }
 }
