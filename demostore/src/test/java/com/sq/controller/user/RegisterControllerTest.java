@@ -1,5 +1,6 @@
 package com.sq.controller.user;
 
+import com.sq.dto.ResponseMessage;
 import com.sq.pojo.Member;
 import com.sq.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -41,9 +42,10 @@ public class RegisterControllerTest {
         member.setEmail("user123@123.com");
         returnedMember.setEmail("user123@123.com");
         returnedMember.setRole(0);
+        ResponseMessage responseMessage = new ResponseMessage(200, "success", returnedMember);
 
         given(userService.register(member))
-                .willReturn(returnedMember);
+                .willReturn(responseMessage);
 
         // When
         mockMvc.perform(post("/user/register/normal")

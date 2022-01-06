@@ -3,7 +3,9 @@ spring:
     active: dev
   application:
     name: demostore
-cors:
-  origins:
-    - http://localhost:3000
-    - https://demostore.top
+
+application:
+  cors:
+    origins:
+      - http://localhost:3000
+      - https://store.shuangqiu.blog

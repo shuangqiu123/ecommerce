@@ -33,6 +33,5 @@ build/
 .vscode/
 
 ### secret
-/sq-payment/src/main/resources/application.yml
-
 *.drawio
+demostore/src/main/resourcesapplication-dev.yml

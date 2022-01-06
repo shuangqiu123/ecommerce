@@ -6,9 +6,12 @@ import com.sq.pojo.Member;
 import com.sq.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +21,7 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/normal")
-    public ResponseMessage normalLogin(@RequestBody @Valid UserLoginDto userLoginDto) {
+    public ResponseEntity<ResponseMessage> normalLogin(@RequestBody @Valid UserLoginDto userLoginDto) {
 
         Member m = userService.login(userLoginDto.getUsername(), userLoginDto.getPassword());
         UserDto userDto = new UserDto();
@@ -28,10 +31,12 @@ public class LoginController {
             responseMessage.setCode(200);
             responseMessage.setMessage("login successful");
             responseMessage.setObject(userDto);
-        } else {
-            responseMessage.setCode(401);
-            responseMessage.setMessage("login unsuccessful");
+            return ResponseEntity.ok().body(responseMessage);
         }
-        return responseMessage;
+        responseMessage.setCode(404);
+        responseMessage.setErrors(Map.of("username", "Username or password unmatched."));
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+        .body(responseMessage);
     }
 }
