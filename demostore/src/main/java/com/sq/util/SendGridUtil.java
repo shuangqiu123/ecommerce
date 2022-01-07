@@ -10,6 +10,7 @@ import com.sendgrid.helpers.mail.objects.Personalization;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -21,6 +22,7 @@ public class SendGridUtil {
     private final SendGrid sendGrid;
     private final Logger logger = LoggerFactory.getLogger(SendGridUtil.class);
 
+    @Async("executor")
     public void sendEmail(String recipient, String subject, Map<String, String> customization, String templateId) throws Exception{
         Email from = new Email("shuang@shuangqiu.blog");
         Email to = new Email(recipient);
@@ -34,6 +36,7 @@ public class SendGridUtil {
         mail.addPersonalization(personalization);
         mail.setTemplateId(templateId);
         mail.setFrom(from);
+        mail.setSubject(subject);
         Request request = new Request();
 
         request.setMethod(Method.POST);

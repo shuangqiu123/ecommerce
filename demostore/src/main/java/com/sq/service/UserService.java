@@ -15,4 +15,6 @@ public interface UserService {
     void forgotPassword(String email);
 
     void resetPassword(UserResetPasswordDto dto, Long uid);
+
+    void verifyEmail(Long uid);
 }
