@@ -19,6 +19,11 @@ jwt:
   tokenHeader: Authorization
   tokenHead: Bearer
 
+oauth:
+  google:
+    clientId:
+    clientSecret:
+
 paypal:
   client:
     app: AUIIEWLQmECuu7K3qd8xvvBMM7SN76Ql7occ1F0d84RqCpxlI2cchIxe-xBCzSVaxxmFLMSpG-Y1LzkI
