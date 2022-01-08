@@ -47,7 +47,7 @@ public class UserServiceTest {
         given(userMapper.selectByUserName("user"))
                 .willReturn(member);
 
-        Member result = userService.login(username, password);
+        Member result = userService.login(username, password, true);
         assertNotNull(result.getAuthToken());
         assertEquals("user", result.getUsername());
     }

@@ -1,5 +1,6 @@
 package com.sq.controller.user;
 import com.sq.dto.ResponseMessage;
+import com.sq.dto.user.OAuthCode;
 import com.sq.dto.user.UserDto;
 import com.sq.dto.user.UserLoginDto;
 import com.sq.pojo.Member;
@@ -23,7 +24,7 @@ public class LoginController {
     @PostMapping("/normal")
     public ResponseEntity<ResponseMessage> normalLogin(@RequestBody @Valid UserLoginDto userLoginDto) {
 
-        Member m = userService.login(userLoginDto.getUsername(), userLoginDto.getPassword());
+        Member m = userService.login(userLoginDto.getUsername(), userLoginDto.getPassword(), userLoginDto.getRememberMe());
         UserDto userDto = new UserDto();
         ResponseMessage responseMessage = new ResponseMessage();
         if (m != null) {
@@ -38,5 +39,19 @@ public class LoginController {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
         .body(responseMessage);
+    }
+
+    @GetMapping("/google/url")
+    public ResponseEntity<ResponseMessage> googleLoginUrl() {
+        String url = userService.getGoogleLoginUrl();
+        return ResponseEntity.ok().body(new ResponseMessage(200, "success", url));
+    }
+
+    @PostMapping("/google/code")
+    public ResponseEntity<ResponseMessage> googleLoginCode(@RequestBody OAuthCode code) {
+        Member user = userService.signInByGoogleToken(code.getCode());
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user, userDto);
+        return ResponseEntity.ok().body(new ResponseMessage(200, "success", userDto));
     }
 }

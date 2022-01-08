@@ -21,4 +21,6 @@ public class UserLoginDto {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{8,20}$",
             message = "Invalid password")
     private String password;
+
+    private Boolean rememberMe;
 }

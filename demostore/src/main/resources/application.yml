@@ -4,6 +4,11 @@ spring:
   application:
     name: demostore
 
+oauth:
+  google:
+    clientId: ${GOOGLE_CLIENT_ID}
+    clientSecret: ${GOOGLE_CLIENT_SECRET}
+
 application:
   cors:
     origins:

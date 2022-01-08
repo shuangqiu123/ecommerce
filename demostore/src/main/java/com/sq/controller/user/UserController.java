@@ -31,6 +31,12 @@ public class UserController {
         return ResponseEntity.ok(new ResponseMessage(200, "success", null));
     }
 
+    @GetMapping("/verifyEmail")
+    public ResponseEntity<ResponseMessage> verifyEmail(HttpServletRequest httpServletRequest) {
+        userService.verifyEmail(getUid(httpServletRequest));
+        return ResponseEntity.ok(new ResponseMessage(200, "success", null));
+    }
+
     private Long getUid(HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");
         return Long.parseLong(userId);
