@@ -14,6 +14,14 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
+    public enum Time {
+        HOUR(3600), DAY(86400), MONTH(2628000);
+        private final long value;
+        Time(final long newValue) {
+            value = newValue;
+        }
+        public long getValue() { return value; }
+    }
     private static final String CLAIM_KEY_UID = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     @Value("${jwt.secret}")
@@ -24,10 +32,10 @@ public class JWTUtil {
     /**
      * generate token based on claims
      */
-    private String generateToken(Map<String, Object> claims) {
+    private String generateToken(Map<String, Object> claims, Time time) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setExpiration(generateExpirationDate())
+                .setExpiration(generateExpirationDate(time))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
@@ -51,8 +59,8 @@ public class JWTUtil {
     /**
      * generate token's expiry time
      */
-    private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 20000);
+    private Date generateExpirationDate(Time time) {
+        return new Date(System.currentTimeMillis() + time.value * 1000);
     }
 
     /**
@@ -98,27 +106,27 @@ public class JWTUtil {
     /**
      * generate token
      */
-    public String generateToken(Member member) {
+    public String generateToken(Member member, Time time) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_UID, member.getId());
         claims.put(CLAIM_KEY_CREATED, new Date());
-        return generateToken(claims);
+        return generateToken(claims, time);
     }
 
-    /**
-     * check if token can be refreshed
-     */
-    public boolean canRefresh(String token) {
-        return !isTokenExpired(token);
-    }
-
-    /**
-     * refresh token
-     */
-    public String refreshToken(String token) {
-        Claims claims = getClaimsFromToken(token);
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        return generateToken(claims);
-    }
+//    /**
+//     * check if token can be refreshed
+//     */
+//    public boolean canRefresh(String token) {
+//        return !isTokenExpired(token);
+//    }
+//
+//    /**
+//     * refresh token
+//     */
+//    public String refreshToken(String token) {
+//        Claims claims = getClaimsFromToken(token);
+//        claims.put(CLAIM_KEY_CREATED, new Date());
+//        return generateToken(claims);
+//    }
 
 }

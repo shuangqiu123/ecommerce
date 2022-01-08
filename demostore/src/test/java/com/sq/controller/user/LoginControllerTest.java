@@ -38,7 +38,7 @@ public class LoginControllerTest {
         member.setAuthToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOjUsImNyZWF0ZWQiOjE2MjgzMzI5MzYzNDksImV4cCI6MTY0MDQyODkzNn0.t3f7cEWImGhM-MpV2bsd1JZKG_EfIMn4A7Xm7g5Y_Z5IQa-mtvKwfco_3T_e7uMp4GVf9WGiJU0Ve82MUHEYGQ");
         member.setRole(0);
 
-        given(userService.login("abcde123456", "abcde123456"))
+        given(userService.login("abcde123456", "abcde123456", true))
                 .willReturn(member);
 
         // When
@@ -63,7 +63,7 @@ public class LoginControllerTest {
         member.setAuthToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOjUsImNyZWF0ZWQiOjE2MjgzMzI5MzYzNDksImV4cCI6MTY0MDQyODkzNn0.t3f7cEWImGhM-MpV2bsd1JZKG_EfIMn4A7Xm7g5Y_Z5IQa-mtvKwfco_3T_e7uMp4GVf9WGiJU0Ve82MUHEYGQ");
         member.setRole(0);
 
-        given(userService.login("abcde123456", "abcde123456"))
+        given(userService.login("abcde123456", "abcde123456", true))
                 .willReturn(null);
 
         mockMvc.perform(post("/user/login/normal")
