@@ -192,6 +192,12 @@ public class UserServiceImpl implements UserService {
         savedMember.setCreated(new Date(System.currentTimeMillis()));
         savedMember.setUpdated(new Date(System.currentTimeMillis()));
         userMapper.insertSelective(savedMember);
+
+        try {
+            sendGridUtil.sendEmail(email, "Welcome To DemoStore", Map.of("websiteLink", frontendURL), "d-f9559eb01f694d52b57b18ab2b1b5064");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return userMapper.selectByEmail(email);
     }
 }

@@ -50,22 +50,20 @@ CREATE TABLE `order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `item` (
-    `id` bigint(20) NOT NULL,
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `title` varchar(100) DEFAULT NULL,
-    `sell_point` varchar(100) DEFAULT NULL,
+    `description` varchar(2000) DEFAULT NULL,
     `price` decimal(10,2) DEFAULT '0.00',
     `num` int(11) DEFAULT NULL,
-    `limit_num` int(11) DEFAULT NULL,
+    `brand` varchar(20) DEFAULT NULL,
     `image` varchar(2000) DEFAULT NULL,
-    `cid` bigint(11) DEFAULT NULL,
     `status` int(1) DEFAULT '1',
     `created` datetime DEFAULT NULL,
     `updated` datetime DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `cid` (`cid`),
     KEY `status` (`status`),
     KEY `updated` (`updated`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `order_item` (

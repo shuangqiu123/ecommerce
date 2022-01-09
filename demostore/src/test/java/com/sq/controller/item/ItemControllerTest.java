@@ -1,5 +1,7 @@
 package com.sq.controller.item;
 import com.github.pagehelper.PageInfo;
+import com.sq.dto.item.ItemBatchMetadata;
+import com.sq.dto.item.ItemBatchPostDto;
 import com.sq.pojo.Item;
 import com.sq.service.ItemService;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -30,12 +32,18 @@ public class ItemControllerTest {
     @Test
     @DisplayName("get all items should return paginated item list")
     public void getAllItemsShouldReturnPaginatedItems() throws Exception {
-        PageInfo<Item> paginatedItems = new PageInfo<>();
+        ItemBatchPostDto itemBatchPostDto = new ItemBatchPostDto();
+        itemBatchPostDto.setPageNum(1);
+        itemBatchPostDto.setPageSize(50);
+        ItemBatchMetadata itemBatchMetadata = new ItemBatchMetadata();
+        itemBatchMetadata.setTotal(10);
 
-        given(itemService.selectAllItemsByPage(50, 1)).willReturn(paginatedItems);
+        given(itemService.batchGetItems(itemBatchPostDto)).willReturn(itemBatchMetadata);
 
-        mockMvc.perform(get("/item/getAllItems?pageNum=50&pageSize=1")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/item/getAllItems")
+                .content("{\n" + "\"pageNum\":1,\n" + "\"pageSize\":50\n" + "}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
                 .andExpect(status().isOk());
     }
 

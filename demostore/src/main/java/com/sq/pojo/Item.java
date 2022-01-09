@@ -15,23 +15,19 @@ public class Item implements Serializable {
 
     private Long id;
 
-
     private String title;
 
-
-    private String sellPoint;
-
+    private String description;
 
     private BigDecimal price;
-
 
     private Integer num;
 
     private Integer limitNum;
 
-    private String image;
+    private String brand;
 
-    private Long cid;
+    private String image;
 
     private Integer status;
 

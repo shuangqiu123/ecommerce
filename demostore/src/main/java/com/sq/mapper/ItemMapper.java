@@ -1,5 +1,6 @@
 package com.sq.mapper;
 
+import com.sq.mapper.condition.ItemBatchSearchCondition;
 import com.sq.pojo.Item;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface ItemMapper {
     List<Item> selectAllItems();
 
     void deleteAll();
+
+    List<Item> selectItemsByCondition(ItemBatchSearchCondition itemBatchSearchCondition);
 }

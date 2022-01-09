@@ -4,19 +4,18 @@
     <resultMap id="BaseResultMap" type="com.sq.pojo.Item">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="sell_point" jdbcType="VARCHAR" property="sellPoint" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="price" jdbcType="DECIMAL" property="price" />
         <result column="num" jdbcType="INTEGER" property="num" />
-        <result column="limit_num" jdbcType="INTEGER" property="limitNum" />
+        <result column="brand" jdbcType="VARCHAR" property="brand" />
         <result column="image" jdbcType="VARCHAR" property="image" />
-        <result column="cid" jdbcType="BIGINT" property="cid" />
         <result column="status" jdbcType="INTEGER" property="status" />
         <result column="created" jdbcType="TIMESTAMP" property="created" />
         <result column="updated" jdbcType="TIMESTAMP" property="updated" />
     </resultMap>
     <sql id="Base_Column_List">
-    id, title, sell_point, price, num, limit_num, image, cid, `status`, created, updated
-  </sql>
+    id, title, description, price, num, brand, image, `status`, created, updated
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -26,7 +25,28 @@
     <select id="selectAllItems" resultType="com.sq.pojo.Item">
         select * from item
     </select>
-    
+    <select id="selectItemsByCondition" resultType="com.sq.pojo.Item" parameterType="com.sq.mapper.condition.ItemBatchSearchCondition">
+        select id, title, price, num, brand, image, created
+        from item
+        <where>
+            <if test="brand != null">
+                brand = #{brand}
+            </if>
+            <if test="priceRangeLow != null and priceRangeHigh != null">
+                AND price BETWEEN #{priceRangeLow} AND #{priceRangeHigh}
+            </if>
+        </where>
+        <if test="sort == 0">
+            ORDER BY created DESC
+        </if>
+        <if test="sort == 1">
+            ORDER BY price ASC
+        </if>
+        <if test="sort == 2">
+            ORDER BY price DESC
+        </if>
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from item
     where id = #{id,jdbcType=BIGINT}
@@ -35,13 +55,13 @@
         delete from item
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sq.pojo.Item" useGeneratedKeys="true">
-    insert into item (id, title, sell_point, price,
-      num, limit_num, image,
-      cid, `status`, created,
+    insert into item (id, title, description, price,
+      num, brand, image,
+      `status`, created,
       updated)
-    values (#{id,jdbcType=BIGINT},#{title,jdbcType=VARCHAR}, #{sellPoint,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
-      #{num,jdbcType=INTEGER}, #{limitNum,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR},
-      #{cid,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP},
+    values (#{id,jdbcType=BIGINT},#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{num,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
   </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sq.pojo.Item" useGeneratedKeys="true">
@@ -50,8 +70,8 @@
             <if test="title != null">
                 title,
             </if>
-            <if test="sellPoint != null">
-                sell_point,
+            <if test="description != null">
+                description,
             </if>
             <if test="price != null">
                 price,
@@ -59,14 +79,11 @@
             <if test="num != null">
                 num,
             </if>
-            <if test="limitNum != null">
-                limit_num,
+            <if test="brand != null">
+                brand,
             </if>
             <if test="image != null">
                 image,
-            </if>
-            <if test="cid != null">
-                cid,
             </if>
             <if test="status != null">
                 `status`,
@@ -82,8 +99,8 @@
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
-            <if test="sellPoint != null">
-                #{sellPoint,jdbcType=VARCHAR},
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
             </if>
             <if test="price != null">
                 #{price,jdbcType=DECIMAL},
@@ -91,14 +108,11 @@
             <if test="num != null">
                 #{num,jdbcType=INTEGER},
             </if>
-            <if test="limitNum != null">
-                #{limitNum,jdbcType=INTEGER},
+            <if test="brand != null">
+                #{brand,jdbcType=VARCHAR},
             </if>
             <if test="image != null">
                 #{image,jdbcType=VARCHAR},
-            </if>
-            <if test="cid != null">
-                #{cid,jdbcType=BIGINT},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
@@ -117,8 +131,8 @@
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
             </if>
-            <if test="sellPoint != null">
-                sell_point = #{sellPoint,jdbcType=VARCHAR},
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
             </if>
             <if test="price != null">
                 price = #{price,jdbcType=DECIMAL},
@@ -126,14 +140,11 @@
             <if test="num != null">
                 num = #{num,jdbcType=INTEGER},
             </if>
-            <if test="limitNum != null">
-                limit_num = #{limitNum,jdbcType=INTEGER},
+            <if test="brand != null">
+                image = #{brand,jdbcType=VARCHAR},
             </if>
             <if test="image != null">
                 image = #{image,jdbcType=VARCHAR},
-            </if>
-            <if test="cid != null">
-                cid = #{cid,jdbcType=BIGINT},
             </if>
             <if test="status != null">
                 `status` = #{status,jdbcType=INTEGER},
@@ -150,12 +161,11 @@
     <update id="updateByPrimaryKey" parameterType="com.sq.pojo.Item">
     update item
     set title = #{title,jdbcType=VARCHAR},
-      sell_point = #{sellPoint,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       num = #{num,jdbcType=INTEGER},
-      limit_num = #{limitNum,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
-      cid = #{cid,jdbcType=BIGINT},
       `status` = #{status,jdbcType=INTEGER},
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP}

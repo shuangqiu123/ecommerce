@@ -1,12 +1,13 @@
 package com.sq.service;
 
-import com.github.pagehelper.PageInfo;
+import com.sq.dto.item.ItemBatchMetadata;
+import com.sq.dto.item.ItemBatchPostDto;
 import com.sq.pojo.Item;
 
 
 public interface ItemService {
 
-    PageInfo selectAllItemsByPage(Integer pageNum, Integer pageSize);
+    ItemBatchMetadata batchGetItems(ItemBatchPostDto itemBatchPostDto);
 
     Item getItemById(Long id);
 

@@ -4,30 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto {
+public class ItemBatchDisplay {
     private Long id;
-
-    @NotNull
     private String title;
-
-    @NotNull
-    private String description;
-
-    @NotNull
     private BigDecimal price;
-
-    @NotNull
     private Integer num;
-
-    @NotNull
+    private Boolean isNewIn;
     private String image;
-
-    private Integer status;
+    private String brand;
 }
