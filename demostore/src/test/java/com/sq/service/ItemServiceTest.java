@@ -26,20 +26,6 @@ public class ItemServiceTest {
     private ItemMapper itemMapper;
 
     @Test
-    @DisplayName("select all items should return paginated items")
-    public void selectAllItemsByPageShouldReturnPaginatedItems() {
-        Item item1 = new Item();
-        item1.setId(0l);
-        Item item2 = new Item();
-        item2.setId(0l);
-        List<Item> items = List.of(item1, item2);
-        given(itemMapper.selectAllItems()).willReturn(items);
-
-        PageInfo<Item> result = itemService.selectAllItemsByPage(50, 1);
-        assertEquals(items, result.getList());
-    }
-
-    @Test
     @DisplayName("get item should return item by id")
     public void getItemByIdShouldReturnItemById() {
         Item item1 = new Item();
