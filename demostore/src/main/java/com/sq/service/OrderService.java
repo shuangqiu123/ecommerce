@@ -1,5 +1,7 @@
 package com.sq.service;
 
+import com.sq.dto.ResponseMessage;
+import com.sq.dto.order.*;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
 import com.sq.pojo.OrderShipping;
@@ -22,9 +24,17 @@ public interface OrderService {
 
     void updateCartItem(Long uid, OrderItem orderItem);
 
+    OrderCreationDto createOrder(Long uid, OrderPostDto orderPostDto);
+
     void createShipping(OrderShipping orderShipping);
 
     void updateShipping(OrderShipping orderShipping);
 
     void setOrderStatus(String orderId, Integer status);
+
+    ResponseMessage getOrder(Long uid, String orderId);
+
+    ResponseMessage getOrderPayment(Long uid, OrderCompletionPostDto orderCompletionPostDto);
+
+    ResponseMessage executeOrderPayment(Long uid, OrderPaymentPostDto orderPaymentPostDto);
 }

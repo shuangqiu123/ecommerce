@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,15 +23,14 @@ public class PaypalService implements PaymentService {
 
     private final PaymentMapper paymentMapper;
     private final PaypalConfig paypalConfig;
-    private final OrderService orderService;
 
-    @Value("${paypal.redirectURL}")
+    @Value("${server.frontendURL}")
     private String redirectURL;
 
     @Override
-    public String createPayment(PaymentDto paymentDto) {
+    public String createPayment(BigDecimal price, String uid, String orderId) {
         // send payment to paypal
-        Amount amount = new Amount("AUD", paymentDto.getPayerAmount().toString());
+        Amount amount = new Amount("AUD", price.toString());
 
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
@@ -41,7 +41,7 @@ public class PaypalService implements PaymentService {
 
         Payer payer = new Payer();
         PayerInfo payerInfo = new PayerInfo();
-        payerInfo.setPayerId(paymentDto.getPayerUid());
+        payerInfo.setPayerId(uid);
         payer.setPayerInfo(payerInfo);
 
 
@@ -53,8 +53,8 @@ public class PaypalService implements PaymentService {
         payer.setPaymentMethod("paypal");
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setReturnUrl(redirectURL + "payment/paypal/success");
-        redirectUrls.setCancelUrl(redirectURL + "payment/paypal/cancel");
+        redirectUrls.setReturnUrl(redirectURL + "/payment/paypal/success");
+        redirectUrls.setCancelUrl(redirectURL + "/payment/paypal/cancel");
 
         payment.setRedirectUrls(redirectUrls);
 
@@ -64,24 +64,25 @@ public class PaypalService implements PaymentService {
         } catch (PayPalRESTException e) {
             e.printStackTrace();
         }
-
+        PaymentDto paymentDto = new PaymentDto();
         // insert payment info in DTO
         paymentDto.setId(UUID.randomUUID().toString());
         paymentDto.setCreateTime(new Date(System.currentTimeMillis()));
         paymentDto.setUpdateTime(new Date(System.currentTimeMillis()));
-        paymentDto.setOrderAmount(paymentDto.getPayerAmount());
+        paymentDto.setOrderAmount(price);
         paymentDto.setStatus("0");
         paymentDto.setPayNo(newPayment.getId());
         paymentDto.setPayerUid(newPayment.getPayer().getPayerInfo().getPayerId());
         paymentDto.setPayWay("paypal");
+        paymentDto.setPayerAmount(price);
+        paymentDto.setPayerUid(uid);
+        paymentDto.setOrderId(orderId);
         for(Links links : newPayment.getLinks()){
             if(links.getRel().equals("approval_url")){
-
                 paymentMapper.insertPayment(paymentDto);
                 return links.getHref();
             }
         }
-
         return "";
     }
 
@@ -91,7 +92,6 @@ public class PaypalService implements PaymentService {
         payment.setId(paymentId);
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
-
         return payment.execute(paypalConfig.getApiContext(), paymentExecute);
     }
 
@@ -104,20 +104,5 @@ public class PaypalService implements PaymentService {
         paymentDto.setStatus("1");
 
         paymentMapper.updatePaymentByPayNum(paymentDto);
-        com.sq.pojo.Payment paymentByPaymentId = paymentMapper.getPaymentByPaymentId(paymentId);
-
-        orderService.setOrderStatus(paymentByPaymentId.getOrderId(), 1);
-    }
-
-    @Override
-    public boolean checkPayment(String orderId) {
-        List<com.sq.pojo.Payment> payments = paymentMapper.getPaymentByOrderId(orderId);
-
-        for (com.sq.pojo.Payment payment : payments) {
-            if (payment.getStatus().equals("1")) {
-                return true;
-            }
-        }
-        return false;
     }
 }

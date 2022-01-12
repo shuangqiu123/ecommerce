@@ -1,13 +1,15 @@
 package com.sq.controller.order;
 
 import com.sq.dto.ResponseMessage;
-import com.sq.dto.order.OrderItemPostDto;
+import com.sq.dto.order.*;
 import com.sq.service.OrderService;
 import com.sq.pojo.Order;
 import com.sq.pojo.OrderItem;
 import com.sq.pojo.OrderShipping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/order/user/")
+@RequestMapping("/order/")
 public class OrderController {
 
     private final OrderService orderService;
@@ -27,12 +29,47 @@ public class OrderController {
         return new ResponseMessage(200, "success", list);
     }
 
-    @GetMapping("/getCartByUserId")
-    public ResponseMessage getCartByUserId(HttpServletRequest request) {
-        Order order = orderService.getCurrentOrderByUserId(this.getUid(request));
-        return new ResponseMessage(200, "success", order);
+    @PostMapping("/createOrder")
+    public ResponseMessage createOrder(@RequestBody @Valid OrderPostDto orderPostDto, HttpServletRequest request) {
+        OrderCreationDto orderCreationDto = orderService.createOrder(getUid(request), orderPostDto);
+        return new ResponseMessage(200, "success", orderCreationDto);
     }
 
+    @GetMapping("/getOrder")
+    public ResponseEntity<ResponseMessage> getOrder(@RequestParam String orderId, HttpServletRequest request) {
+        ResponseMessage responseMessage = orderService.getOrder(getUid(request), orderId);
+        if (responseMessage.getCode() == 403) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseMessage);
+        }
+        else if (responseMessage.getCode() == 404) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
+        }
+        return ResponseEntity.ok().body(responseMessage);
+    }
+
+    @PostMapping("/getOrderPayment")
+    public ResponseEntity<ResponseMessage> getOrderPayment(@RequestBody @Valid OrderCompletionPostDto orderCompletionPostDto, HttpServletRequest request) {
+        ResponseMessage responseMessage = orderService.getOrderPayment(getUid(request), orderCompletionPostDto);
+        if (responseMessage.getCode() == 403) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseMessage);
+        }
+        else if (responseMessage.getCode() == 404) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
+        }
+        return ResponseEntity.ok().body(responseMessage);
+    }
+
+    @PostMapping("/payOrder")
+    public ResponseEntity<ResponseMessage> payOrder(@RequestBody @Valid OrderPaymentPostDto orderPaymentPostDto, HttpServletRequest request) {
+        ResponseMessage responseMessage = orderService.executeOrderPayment(getUid(request), orderPaymentPostDto);
+        if (responseMessage.getCode() == 403) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseMessage);
+        }
+        else if (responseMessage.getCode() == 404) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
+        }
+        return ResponseEntity.ok().body(responseMessage);
+    }
 
     @PostMapping("/addItem")
     public ResponseMessage addItem(@RequestBody @Valid OrderItemPostDto orderItemPostDto, HttpServletRequest request) {

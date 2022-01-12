@@ -6,6 +6,8 @@ import com.sq.constant.Category;
 import com.sq.dto.item.ItemBatchDisplay;
 import com.sq.dto.item.ItemBatchMetadata;
 import com.sq.dto.item.ItemBatchPostDto;
+import com.sq.dto.item.ItemDto;
+import com.sq.dto.order.OrderItemDto;
 import com.sq.mapper.ItemMapper;
 import com.sq.mapper.condition.ItemBatchSearchCondition;
 import com.sq.service.ItemService;
@@ -13,6 +15,7 @@ import com.sq.pojo.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -42,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
                     if (itemBatchPostDto.getCategory() == Category.NEW_IN) {
                         Date created = item.getCreated();
                         Date now = new Date();
-                        if (now.getTime() - created.getTime() > 15780000L * 1000) {
+                        if (!isNewIn(created, now)) {
                             return false;
                         }
                     }
@@ -57,9 +60,7 @@ public class ItemServiceImpl implements ItemService {
                     BeanUtils.copyProperties(item, itemBatchDisplay);
                     Date created = item.getCreated();
                     Date now = new Date();
-                    if (now.getTime() - created.getTime() <= 15780000L * 1000) {
-                        itemBatchDisplay.setIsNewIn(true);
-                    }
+                    itemBatchDisplay.setIsNewIn(isNewIn(created, now));
                     return itemBatchDisplay;
                 })
                 .collect(Collectors.toList());
@@ -68,6 +69,24 @@ public class ItemServiceImpl implements ItemService {
         itemBatchMetadata.setItemBatchDisplayList(itemBatchDisplayList);
         itemBatchMetadata.setTotal(itemBatchDisplayList.size());
         return itemBatchMetadata;
+    }
+
+    @Override
+    public List<ItemDto> getItemsById(List<Long> ids) {
+        List<ItemDto> itemDtos = ids.stream().map(id -> {
+            Item item = itemMapper.selectByPrimaryKey(id);
+            return item;
+        }).filter(item -> item != null)
+                .map(item -> {
+                    ItemDto itemDto = new ItemDto();
+                    Date created = item.getCreated();
+                    Date now = new Date();
+                    BeanUtils.copyProperties(item, itemDto);
+                    itemDto.setIsNewIn(isNewIn(created, now));
+                    return itemDto;
+                })
+                .collect(Collectors.toList());
+        return itemDtos;
     }
 
     @Override
@@ -85,5 +104,26 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void deleteItem(Long id) {
         itemMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    @Transactional
+    public OrderItemDto checkItemAvailability(Long id, Integer quantity) {
+        Item item = itemMapper.selectByPrimaryKey(id);
+        if (item == null || item.getNum() == 0) {
+            return null;
+        }
+        OrderItemDto orderItemDto = new OrderItemDto(id, quantity);
+        if (quantity > item.getNum()) {
+            orderItemDto.setQuantity(item.getNum());
+        }
+        return orderItemDto;
+    }
+
+    private boolean isNewIn(Date created, Date now) {
+        if (now.getTime() - created.getTime() <= 15780000L * 1000) {
+            return true;
+        }
+        return false;
     }
 }

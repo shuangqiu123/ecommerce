@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class ItemController {
         return new ResponseMessage(200,"success", itemBatchMetadata);
     }
 
-    @GetMapping("/getItemById/{id}")
-    public ResponseMessage getItemById(@PathVariable Long id) {
-        return new ResponseMessage(200,"success", itemService.getItemById(id));
+    @GetMapping("/getItemsById")
+    public ResponseMessage getItemsById(@RequestParam List<Long> ids) {
+        return new ResponseMessage(200,"success", itemService.getItemsById(ids));
     }
 
 }

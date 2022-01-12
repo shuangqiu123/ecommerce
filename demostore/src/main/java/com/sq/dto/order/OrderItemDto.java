@@ -1,4 +1,4 @@
-package com.sq.dto.item;
+package com.sq.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,32 +6,29 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto {
+public class OrderItemDto {
     private Long id;
 
-    @NotNull
+    private Integer quantity;
+
     private String title;
 
-    @NotNull
     private String description;
 
-    @NotNull
     private BigDecimal price;
 
-    @NotNull
-    private Integer num;
-
-    @NotNull
     private String image;
-
-    private Integer status;
 
     private Boolean isNewIn;
 
     private String brand;
+
+    public OrderItemDto(Long id, Integer quantity) {
+        this.id = id;
+        this.quantity = quantity;
+    }
 }

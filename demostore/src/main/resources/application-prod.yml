@@ -26,4 +26,3 @@ paypal:
     app:
     secret:
     mode: sandbox
-  redirectURL: https://demostore.top/payment/

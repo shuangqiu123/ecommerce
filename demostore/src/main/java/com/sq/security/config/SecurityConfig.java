@@ -40,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/register/**",
             "/user/forgotPassword",
             "/item/**",
-            "/payment/paypal/success",
-            "/payment/paypal/cancel",
             "/order/status/**",
             "/order/management/**",
             "/actuator/**",
