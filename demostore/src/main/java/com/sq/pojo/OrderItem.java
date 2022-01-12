@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class OrderItem {
@@ -30,8 +31,6 @@ public class OrderItem {
 
     private String picPath;
 
-
-
     private Integer status;
 
 
@@ -39,6 +38,8 @@ public class OrderItem {
 
 
     private Date updateTime;
+
+    private Item item;
 
     private static final long serialVersionUID = 1L;
 }

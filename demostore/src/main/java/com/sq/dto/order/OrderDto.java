@@ -52,8 +52,4 @@ public class OrderDto {
     private String uniqueKey;
 
     private List<OrderItem> orderItemList;
-
-//    private UserDto userDto;
-//
-//    private PaymentDto paymentDto;
 }

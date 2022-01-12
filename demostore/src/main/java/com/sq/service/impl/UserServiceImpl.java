@@ -175,6 +175,7 @@ public class UserServiceImpl implements UserService {
     private Member oauthSignIn(String email, String username) {
         Member userSelectedByEmail = userMapper.selectByEmail(email);
         if (userSelectedByEmail != null) {
+            userSelectedByEmail.setAuthToken(jwtUtil.generateToken(userSelectedByEmail, JWTUtil.Time.DAY));
             return userSelectedByEmail;
         }
         if (username.length() < 4) {
@@ -198,6 +199,8 @@ public class UserServiceImpl implements UserService {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return userMapper.selectByEmail(email);
+        Member returnedUser = userMapper.selectByEmail(email);
+        returnedUser.setAuthToken(jwtUtil.generateToken(returnedUser, JWTUtil.Time.DAY));
+        return returnedUser;
     }
 }

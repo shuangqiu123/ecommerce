@@ -22,7 +22,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.FORBIDDEN.value(),"invalid token access", null);
+        ResponseMessage responseMessage = new ResponseMessage(HttpStatus.FORBIDDEN.value(),"access denied", null);
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.getWriter().println(JSONUtil.parse(responseMessage));
         response.getWriter().flush();

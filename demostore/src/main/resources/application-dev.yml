@@ -29,4 +29,3 @@ paypal:
     app: AUIIEWLQmECuu7K3qd8xvvBMM7SN76Ql7occ1F0d84RqCpxlI2cchIxe-xBCzSVaxxmFLMSpG-Y1LzkI
     secret: ENlUZyfBghNeZNWtbbvQ0yIdiqZbpnymvWkM2MqpzVpEDiM-jWsKXmgt-FYxCioBJIQgG5zxMqx6VRvE
     mode: sandbox
-  redirectURL: http://localhost:3000/
