@@ -21,5 +21,7 @@ public interface ItemService {
 
     void deleteItem(Long id);
 
+    void updateStock(Long id, int num);
+
     OrderItemDto checkItemAvailability(Long id, Integer quantity);
 }

@@ -4,6 +4,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import com.sq.dto.ResponseMessage;
 import com.sq.dto.order.*;
 import com.sq.dto.payment.PaymentDto;
+import com.sq.mapper.ItemMapper;
 import com.sq.service.ItemService;
 import com.sq.mapper.OrderItemMapper;
 import com.sq.mapper.OrderMapper;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -88,11 +86,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrdersByUserId(Long uid) {
         List<Order> orders = orderMapper.selectOrderByUserId(uid);
-
-        for (Order o : orders) {
-            List<OrderItem> orderItems = orderItemMapper.selectByOrderId(o.getOrderId());
-            o.setOrderItemList(orderItems);
-        }
         return orders;
     }
 
@@ -223,6 +216,7 @@ public class OrderServiceImpl implements OrderService {
             return response;
         }
         List<OrderItem> orderItems = orderItemMapper.selectByOrderId(orderId);
+        Order order = orderMapper.selectByPrimaryKey(orderId);
         OrderGetDto orderGetDto = new OrderGetDto();
         List<OrderItemDto> orderItemDtos = orderItems.stream().map((orderItem -> {
             Item item = orderItem.getItem();
@@ -232,7 +226,10 @@ public class OrderServiceImpl implements OrderService {
             return orderItemDto;
         })).collect(Collectors.toList());
         orderGetDto.setItems(orderItemDtos);
-        orderGetDto.setPrice(calculatePrice(orderItems));
+        double price = calculatePrice(orderItems);
+        orderGetDto.setPrice(price);
+        order.setPayment(new BigDecimal(price));
+        orderMapper.updateByPrimaryKey(order);
         return new ResponseMessage(200, "success", orderGetDto);
     }
 
@@ -246,7 +243,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order order = orderMapper.selectByPrimaryKey(orderId);
         if (order.getStatus() == 1) {
-            return new ResponseMessage(404, "completed order", null);
+            return new ResponseMessage(404, "completed order", null, Map.of("order", "completed order"));
         }
         List<OrderItem> orderItems = orderItemMapper.selectByOrderId(orderId);
 
@@ -263,16 +260,20 @@ public class OrderServiceImpl implements OrderService {
         orderShipping.setCreated(new Date());
         orderShipping.setUpdated(new Date());
         orderShipping.setOrderId(orderId);
+        orderShippingMapper.deleteByPrimaryKey(orderId);
         orderShippingMapper.insert(orderShipping);
 
         // continue to payment
         double price = calculatePrice(orderItems);
+        order.setPayment(new BigDecimal(price));
+        order.setShippingName(shippingDto.getReceiverName());
+        orderMapper.updateByPrimaryKey(order);
         String url = "";
         try {
             url = paymentService.createPayment(new BigDecimal(price), uid.toString(), orderId);
         } catch (PayPalRESTException e) {
             e.printStackTrace();
-            return new ResponseMessage(404, "paypal error", null);
+            return new ResponseMessage(404, "paypal error", null, Map.of("paypal", "paypal erro"));
         }
         OrderCompletionDto orderCompletionDto = new OrderCompletionDto();
         orderCompletionDto.setUrl(url);
@@ -289,7 +290,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order order = orderMapper.selectByPrimaryKey(orderId);
         if (order.getStatus() == 1) {
-            return new ResponseMessage(404, "completed order", null);
+            return new ResponseMessage(404, "completed order", null, Map.of("order", "completed order"));
         }
         List<OrderItem> orderItems = orderItemMapper.selectByOrderId(orderId);
 
@@ -298,7 +299,6 @@ public class OrderServiceImpl implements OrderService {
         if (response != null) {
             return response;
         }
-
         try {
             paymentService.executePayment(orderPaymentPostDto.getPaymentId(), orderPaymentPostDto.getPayerId());
         } catch (PayPalRESTException e) {
@@ -306,8 +306,12 @@ public class OrderServiceImpl implements OrderService {
             return new ResponseMessage(404, "payment execution error", null);
         }
         setOrderStatus(orderId, 1);
-        // To-Do deduct items
-
+        // deduct items
+        orderItems.forEach(orderItem -> {
+            Long itemId = orderItem.getItemId();
+            Integer quantity = orderItem.getNum();
+            itemService.updateStock(itemId, quantity);
+        });
         paymentService.completePayment(orderPaymentPostDto.getPaymentId());
         return new ResponseMessage(200, "success", null);
     }
@@ -315,7 +319,7 @@ public class OrderServiceImpl implements OrderService {
     private ResponseMessage checkUserAccess(Long uid, String orderId) {
         Order order = orderMapper.selectByPrimaryKey(orderId);
         if (order == null) {
-            return new ResponseMessage(404, "order not found", null);
+            return new ResponseMessage(404, "order not found", null, Map.of("order", "order not found"));
         }
         if (!order.getUserId().equals(uid)) {
             return new ResponseMessage(403, "Forbidden Access", null);
@@ -326,6 +330,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public ResponseMessage syncOrder(List<OrderItem> orderItems) {
         boolean isChanged = false;
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
         for (OrderItem orderItem: orderItems) {
             OrderItemDto orderItemDto = itemService.checkItemAvailability(orderItem.getItemId(), orderItem.getNum());
             if (orderItemDto == null) {
@@ -336,11 +341,16 @@ public class OrderServiceImpl implements OrderService {
                 isChanged = true;
                 orderItem.setNum(orderItemDto.getQuantity());
                 orderItemMapper.updateByPrimaryKeySelective(orderItem);
+                orderItemDtos.add(orderItemDto);
+            }
+            else {
+                orderItemDtos.add(orderItemDto);
             }
         }
         if (isChanged) {
             OrderCompletionDto orderCompletionDto = new OrderCompletionDto();
             orderCompletionDto.setIsChanged(true);
+            orderCompletionDto.setItems(orderItemDtos);
             return new ResponseMessage(200, "success", orderCompletionDto);
         }
         return null;

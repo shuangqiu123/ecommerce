@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<ResponseMessage> forgotPassword(@RequestBody @Valid UserResetPasswordDto dto, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResponseMessage> resetPassword(@RequestBody @Valid UserResetPasswordDto dto, HttpServletRequest httpServletRequest) {
         userService.resetPassword(dto, getUid(httpServletRequest));
         return ResponseEntity.ok(new ResponseMessage(200, "success", null));
     }
@@ -34,6 +34,13 @@ public class UserController {
     @GetMapping("/verifyEmail")
     public ResponseEntity<ResponseMessage> verifyEmail(HttpServletRequest httpServletRequest) {
         userService.verifyEmail(getUid(httpServletRequest));
+        return ResponseEntity.ok(new ResponseMessage(200, "success", null));
+    }
+
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<ResponseMessage> changePassword(@RequestBody @Valid UserResetPasswordDto dto, HttpServletRequest httpServletRequest) {
+        userService.resetPassword(dto, getUid(httpServletRequest));
         return ResponseEntity.ok(new ResponseMessage(200, "success", null));
     }
 
