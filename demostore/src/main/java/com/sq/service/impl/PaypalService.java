@@ -10,6 +10,7 @@ import com.sq.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class PaypalService implements PaymentService {
     private String redirectURL;
 
     @Override
+    @Transactional
     public String createPayment(BigDecimal price, String uid, String orderId) {
         // send payment to paypal
         Amount amount = new Amount("AUD", price.toString());
@@ -53,8 +55,8 @@ public class PaypalService implements PaymentService {
         payer.setPaymentMethod("paypal");
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setReturnUrl(redirectURL + "/payment/paypal/success");
-        redirectUrls.setCancelUrl(redirectURL + "/payment/paypal/cancel");
+        redirectUrls.setReturnUrl(redirectURL + "/payment/" + orderId + "/success");
+        redirectUrls.setCancelUrl(redirectURL + "/payment/" + orderId + "/cancel");
 
         payment.setRedirectUrls(redirectUrls);
 
@@ -102,7 +104,6 @@ public class PaypalService implements PaymentService {
         paymentDto.setUpdateTime(new Date(System.currentTimeMillis()));
         paymentDto.setPayNo(paymentId);
         paymentDto.setStatus("1");
-
         paymentMapper.updatePaymentByPayNum(paymentDto);
     }
 }

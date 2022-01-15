@@ -108,15 +108,29 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
+    public void updateStock(Long id, int num) {
+        Item item = itemMapper.selectByPrimaryKey(id);
+        item.setNum(item.getNum() - num);
+        itemMapper.updateByPrimaryKeySelective(item);
+    }
+
+    @Override
+    @Transactional
     public OrderItemDto checkItemAvailability(Long id, Integer quantity) {
         Item item = itemMapper.selectByPrimaryKey(id);
         if (item == null || item.getNum() == 0) {
             return null;
         }
         OrderItemDto orderItemDto = new OrderItemDto(id, quantity);
+        orderItemDto.setBrand(item.getBrand());
+        orderItemDto.setImage(item.getImage());
+        orderItemDto.setTitle(item.getTitle());
+        orderItemDto.setPrice(item.getPrice());
+        orderItemDto.setIsNewIn(isNewIn(item.getCreated(), new Date()));
         if (quantity > item.getNum()) {
             orderItemDto.setQuantity(item.getNum());
         }
+
         return orderItemDto;
     }
 
