@@ -21,11 +21,6 @@ public class ManagementOrderController {
     @GetMapping("/getAllOrders")
     public ResponseMessage getAllOrders(HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
-
-        if (getUid(request) != 5) {
-            responseMessage.setCode(401);
-            return responseMessage;
-        }
         List<Order> allOrders = orderService.getAllOrders();
         List<OrderDto> orderDtoList = new ArrayList<>();
         allOrders.forEach(order -> {
@@ -39,10 +34,6 @@ public class ManagementOrderController {
     @GetMapping("/changeOrderStatus")
     public ResponseMessage changeOrderStatus(@RequestParam("orderId") String orderId, @RequestParam("status") Integer status, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
-        if (getUid(request) != 5) {
-            responseMessage.setCode(401);
-            return responseMessage;
-        }
         orderService.setOrderStatus(orderId, status);
 
         responseMessage.setMessage("success");

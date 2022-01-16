@@ -21,11 +21,6 @@ public class ManagementItemController {
     @GetMapping("/deleteItem")
     public ResponseMessage deleteItem(@RequestParam("itemId") Long id, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
-
-        if (getUid(request) != 5) {
-            responseMessage.setCode(401);
-            return responseMessage;
-        }
         itemService.deleteItem(id);
         return responseMessage;
     }
@@ -33,10 +28,6 @@ public class ManagementItemController {
     @PostMapping("/insertItem")
     public ResponseMessage insertItem(@RequestBody @Valid ItemDto itemDto, HttpServletRequest request) {
         ResponseMessage responseMessage = new ResponseMessage();
-        if (getUid(request) != 5) {
-            responseMessage.setCode(401);
-            return responseMessage;
-        }
         Item item = new Item();
         BeanUtils.copyProperties(itemDto, item);
         itemService.insertItem(item);
