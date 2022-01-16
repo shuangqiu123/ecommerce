@@ -40,6 +40,7 @@
     <select id="selectOrderByUserId" resultType="com.sq.pojo.Order" parameterType="long">
         select * from `order`
         where user_id=#{id}
+        order by create_time DESC
     </select>
     <select id="selectOrder" resultType="com.sq.pojo.Order">
        select * from `order`

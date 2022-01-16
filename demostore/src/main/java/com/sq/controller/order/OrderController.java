@@ -106,6 +106,11 @@ public class OrderController {
         return new ResponseMessage(200, "success", null);
     }
 
+    @GetMapping("/cancelOrder")
+    public ResponseMessage cancelOrder(@RequestParam("orderId") String orderId, HttpServletRequest request) {
+        return orderService.cancelOrder(orderId, getUid(request));
+    }
+
 
     private Long getUid(HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");

@@ -228,6 +228,7 @@ public class OrderServiceImpl implements OrderService {
         orderGetDto.setItems(orderItemDtos);
         double price = calculatePrice(orderItems);
         orderGetDto.setPrice(price);
+        orderGetDto.setViewOnly(order.getStatus() >= 1);
         order.setPayment(new BigDecimal(price));
         orderMapper.updateByPrimaryKey(order);
         return new ResponseMessage(200, "success", orderGetDto);
@@ -313,6 +314,19 @@ public class OrderServiceImpl implements OrderService {
             itemService.updateStock(itemId, quantity);
         });
         paymentService.completePayment(orderPaymentPostDto.getPaymentId());
+        return new ResponseMessage(200, "success", null);
+    }
+
+    @Override
+    public ResponseMessage cancelOrder(String orderId, Long uid) {
+        ResponseMessage responseMessage = checkUserAccess(uid, orderId);
+        if (responseMessage != null) return responseMessage;
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order.getStatus() == 1) {
+            return new ResponseMessage(404, "completed order", null, Map.of("order", "completed order"));
+        }
+        order.setStatus(2);
+        orderMapper.updateByPrimaryKey(order);
         return new ResponseMessage(200, "success", null);
     }
 

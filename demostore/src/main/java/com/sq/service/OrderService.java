@@ -37,4 +37,6 @@ public interface OrderService {
     ResponseMessage getOrderPayment(Long uid, OrderCompletionPostDto orderCompletionPostDto);
 
     ResponseMessage executeOrderPayment(Long uid, OrderPaymentPostDto orderPaymentPostDto);
+
+    ResponseMessage cancelOrder(String orderId, Long uid);
 }
