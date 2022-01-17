@@ -15,6 +15,37 @@ jobs:
             -Dspring.datasource.url=$url \
             -Dspring.datasource.username=$username \
             -Dspring.datasource.password=$password
+  eb-deployment:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - run:
+          name: "Config aws cli credentials"
+          command: |
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set region $AWS_REGION
+      - run:
+          name: "Create Dockerrun aws json file"
+          command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
+            sed -i "s~<AWS_ACCOUNT_ID>~$AWS_ACCOUNT_ID~g" ./scripts/Dockerrun.aws.json
+            sed -i "s~<TAG>~$TAG~g" ./scripts/Dockerrun.aws.json
+      - run:
+          name: "create app version"
+          command: |
+            aws s3 cp ./scripts/Dockerrun.aws.json s3://$EB_S3_BUCKET
+            aws elasticbeanstalk create-application-version \
+            --application-name demostore \
+            --version-label $TAG \
+            --source-bundle S3Bucket=$EB_S3_BUCKET,S3Key=Dockerrun.aws.json
+      - run:
+          name: "update eb environment"
+          command: |
+            aws elasticbeanstalk update-environment \
+            --application-name demostore \
+            --environment-name demostore \
+            --version-label $TAG
 
 
 workflows:
@@ -29,3 +60,7 @@ workflows:
             - backend-testing
           repo: "${ECR_REPO_NAME}"
           tag: "$(echo $CIRCLE_SHA1 | cut -c -5)"
+      - eb-deployment:
+          requires:
+            - backend-testing
+            - aws-ecr/build-and-push-image
