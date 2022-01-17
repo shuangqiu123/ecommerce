@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "030208457845.dkr.ecr.ap-southeast-2.amazonaws.com/demostore:2fb8b"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "5000",
+      "HostPort": "80"
+    }
+  ]
+}
