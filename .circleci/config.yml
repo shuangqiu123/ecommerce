@@ -37,6 +37,7 @@ jobs:
           command: |
             TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
             aws s3 cp scripts/Dockerrun.aws.json s3://$EB_S3_BUCKET
+
             aws elasticbeanstalk create-application-version \
             --application-name demostore \
             --version-label $TAG \
