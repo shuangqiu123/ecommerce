@@ -42,3 +42,9 @@ resource "aws_iam_policy_attachment" "AWSElasticBeanstalkMulticontainerDocker" {
   roles      = [aws_iam_role.eb_ec2_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
+
+resource "aws_iam_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+  name       = "AmazonEC2ContainerRegistryReadOnly"
+  roles      = [aws_iam_role.eb_ec2_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}

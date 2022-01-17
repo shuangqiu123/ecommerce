@@ -13,3 +13,33 @@ variable "BACKEND_DOMAIN" {
 
 variable "BACKEND_CERT_ARN" {
 }
+
+variable "frontendURL" {
+}
+
+variable "dbUrl" {
+}
+
+variable "dbUsername" {
+}
+
+variable "dbPassword" {
+}
+
+variable "sendgridApiKey" {
+}
+
+variable "jwtSecret" {
+}
+
+variable "paypalApp" {
+}
+
+variable "paypalSecret" {
+}
+
+variable "GOOGLE_CLIENT_ID" {
+}
+
+variable "GOOGLE_CLIENT_SECRET" {
+}

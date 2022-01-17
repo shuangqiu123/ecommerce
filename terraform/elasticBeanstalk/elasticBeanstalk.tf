@@ -14,7 +14,7 @@ resource "aws_elastic_beanstalk_environment" "demostore" {
 
   name                = "demostore"
   application         = aws_elastic_beanstalk_application.demostore.name
-  solution_stack_name = "64bit Amazon Linux 2 v3.4.9 running Docker"
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.10 running Docker"
  
   // vpc
   setting {
@@ -105,6 +105,62 @@ resource "aws_elastic_beanstalk_environment" "demostore" {
     value = "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
   }
 
-  // environment variables
+  setting {
+    namespace = "aws:elasticbeanstalk:environment:process:default"
+    name = "HealthCheckPath"
+    value = "/actuator/health"
+  }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "frontendURL"
+    value = var.frontendURL
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "dbUrl"
+    value = var.dbUrl
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "dbUsername"
+    value = var.dbUsername
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "dbPassword"
+    value = var.dbPassword
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "sendgridApiKey"
+    value = var.sendgridApiKey
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "jwtSecret"
+    value = var.jwtSecret
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "paypalApp"
+    value = var.paypalApp
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "paypalSecret"
+    value = var.paypalSecret
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "GOOGLE_CLIENT_ID"
+    value = var.GOOGLE_CLIENT_ID
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "GOOGLE_CLIENT_SECRET"
+    value = var.GOOGLE_CLIENT_SECRET
+  }
 }

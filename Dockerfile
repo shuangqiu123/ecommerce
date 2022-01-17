@@ -9,4 +9,4 @@ RUN chmod +x startup.sh
 
 RUN mvn clean package -Dmaven.test.skip
 
-ENTRYPOINT ["sh", "-c", "startup.sh"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "./demostore/target/demostore-0.0.1-SNAPSHOT.jar"]

@@ -1,11 +1,12 @@
 server:
   port: 5000
+  frontendURL: ${frontendURL}
 Spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url:
-    username:
-    password:
+    url: ${dbUrl}
+    username: ${dbUsername}
+    password: ${dbPassword}
   flyway:
     enabled: true
     clean-disabled: true
@@ -14,15 +15,16 @@ Spring:
     encoding: UTF-8
     out-of-order: false
     validate-on-migrate: true
+  sendgrid:
+    api-key: ${sendgridApiKey}
 
 jwt:
-  secret:
-  expiration: 604800
+  secret: ${jwtSecret}
   tokenHeader: Authorization
   tokenHead: Bearer
 
 paypal:
   client:
-    app:
-    secret:
+    app: ${paypalApp}
+    secret: ${paypalSecret}
     mode: sandbox

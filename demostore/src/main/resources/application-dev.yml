@@ -20,7 +20,6 @@ Spring:
 
 jwt:
   secret: mySecret
-  expiration: 604800
   tokenHeader: Authorization
   tokenHead: Bearer
 
