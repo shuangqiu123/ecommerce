@@ -19,6 +19,7 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
+      - checkout
       - run:
           name: "Config aws cli credentials"
           command: |
@@ -29,12 +30,13 @@ jobs:
           name: "Create Dockerrun aws json file"
           command: |
             TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
-            sed -i "s~<AWS_ACCOUNT_ID>~$AWS_ACCOUNT_ID~g" ./scripts/Dockerrun.aws.json
-            sed -i "s~<TAG>~$TAG~g" ./scripts/Dockerrun.aws.json
+            sed -i "s~<AWS_ACCOUNT_ID>~$AWS_ACCOUNT_ID~g" scripts/Dockerrun.aws.json
+            sed -i "s~<TAG>~$TAG~g" scripts/Dockerrun.aws.json
       - run:
           name: "create app version"
           command: |
-            aws s3 cp ./scripts/Dockerrun.aws.json s3://$EB_S3_BUCKET
+            aws s3 cp scripts/Dockerrun.aws.json s3://$EB_S3_BUCKET
+
             aws elasticbeanstalk create-application-version \
             --application-name demostore \
             --version-label $TAG \
