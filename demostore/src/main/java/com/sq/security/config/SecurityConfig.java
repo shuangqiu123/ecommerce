@@ -40,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/register/**",
             "/user/forgotPassword",
             "/item/**",
-            "/order/status/**",
-            "/order/management/**",
             "/actuator/**",
     };
 
@@ -61,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST)// allow anonymous access for given urls
                 .permitAll()
+                .antMatchers("/management/**").hasRole("ADMIN")
                 .anyRequest()// authorized any other requests
                 .authenticated();
 

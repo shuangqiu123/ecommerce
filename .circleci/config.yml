@@ -49,7 +49,7 @@ jobs:
             aws elasticbeanstalk update-environment \
             --application-name demostore \
             --environment-name demostore \
-            --version-label $TAG
+            --version-label $TAG > updateLog.txt
 
 
 workflows:
