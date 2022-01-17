@@ -35,6 +35,7 @@ jobs:
       - run:
           name: "create app version"
           command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
             aws s3 cp scripts/Dockerrun.aws.json s3://$EB_S3_BUCKET
             aws elasticbeanstalk create-application-version \
             --application-name demostore \
@@ -43,6 +44,7 @@ jobs:
       - run:
           name: "update eb environment"
           command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c -5)
             aws elasticbeanstalk update-environment \
             --application-name demostore \
             --environment-name demostore \
