@@ -23,7 +23,7 @@ public class SendGridUtil {
     private final Logger logger = LoggerFactory.getLogger(SendGridUtil.class);
 
     @Async("executor")
-    public void sendEmail(String recipient, String subject, Map<String, String> customization, String templateId) throws Exception{
+    public void sendEmail(String recipient, String subject, Map<String, Object> customization, String templateId) throws Exception{
         Email from = new Email("shuang@shuangqiu.blog");
         Email to = new Email(recipient);
         Personalization personalization = new Personalization();
