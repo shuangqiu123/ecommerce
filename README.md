@@ -2,64 +2,52 @@
 
 [![<ORG_NAME>](https://circleci.com/gh/shuangqiu123/ecommerce.svg?style=shield)](<https://app.circleci.com/pipelines/github/shuangqiu123/ecommerce>)
 
-Demo website URL: https://demostore.top
+Website URL: https://store.shuangqiu.blog
 
-Management System: https://demostore.top/management
+Frontend Repo: https://github.com/shuangqiu123/ecommerce-frontend
 
 ## Project Description
 
-`Demo Store` is a ecommerce system, including online store system and management system. It is using distributed microservices architecture based on Spring Cloud, Spring Boot, and Vue.js, hosted on AWS Cloud. The online store allows users to view items and create orders. The management system allows administrators to manage orders, items and users.
-
-### System Architecture
-
-![Architecture Diagram](/frontend/src/assets/a.png)
+An online store built using Spring Boot and React.js. The backend is hosted on AWS by AWS Elastic Beanstalk. The infrastructure is built using terraform (Elastic Beanstalk, ECR, S3, IAM Roles and Policies, VPC, and Redis). The backend uses CircleCI as CI/CD tool for deployment.
 
 ### Project File Structure
 
 ``` lua
 ecommerce
-├── cicd
-	├── Jenkinsfile-front -- Jenkins pipeline to build, test, and deploy frontend to S3
-	├── Jenkins-back-build-script.sh -- Jenkins Freestyle project to build and deploy docker images to ECR, 
-					 -- used as Build Stage in AWS CodePipeline
-├── sq-eureka -- Service Registry Center
-├── sq-common -- contains tools and pojo
-├── sq-security -- Spring Security for authentication
-├── sq-order -- online store order system
-├── sq-user -- online store user system
-├── sq-item -- online store item system
-├── sq-payment -- online store payment system
-├── sq-management -- online store management system
-├── frontend -- contains frontend files of the online store
-├── docker-compose.yml -- the docker-compose file to build all microservice images in one command
+├── .circleci
+	├── config.yml -- CircleCI configuration file
+├── demostore -- backend Spring Boot source code
+├── ecommerce-frontend -- git submodule linking to frontend
+├── scripts
+	├── Dockerrun.aws.json -- JSON file needed for creating Elastic Beanstalk App Version
+├── terraform -- Terraform code to build the backend infrastructure
+├── Dockerfile -- Build backend docker image
+├── pom.xml -- Maven configuration file for parent module
 ```
 
-## AWS Cloud Services
+## Tech Stacks
 
-- AWS ECS, ECR, EC2, ALB
-- AWS S3, CloudFront
+### AWS
+
+- AWS Elastic Beanstalk, ECS, ECR, S3, CloudWatch
 - AWS RDS (MySQL)
-- AWS Route53
-- AWS CodePipeline
+- AWS Route53, ACM
 
-## Backend
+### Backend
 
-- Spring Boot
-- Spring Security
-- Spring Cloud Netflix Eureka
+- Spring Boot, Spring Framework
+- Spring Security with JWT for Authorization and Authentication
 - Spring MVC
-- JWT
+- Bean Validation
 - Lombok
+- OAuth2
 - MyBatis
+- Flyway
 - JUnit
 - Mockito
 
-## Frontend
+### Others
 
-- JavaScript ES6
-- Vue.js
-- Vue Router
-- Axios
-- LESS
-- HTML5
-- Element UI
+- Google API
+- Paypal API
+- SendGrid API
