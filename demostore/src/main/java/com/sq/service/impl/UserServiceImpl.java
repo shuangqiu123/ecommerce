@@ -124,8 +124,7 @@ public class UserServiceImpl implements UserService {
             return;
         }
         String token = jwtUtil.generateToken(member, JWTUtil.Time.HOUR);
-        System.out.println(token);
-        Map<String, String> customization = Map.of("resetLink", frontendURL + "/user/resetPassword?token=" + token);
+        Map<String, Object> customization = Map.of("resetLink", frontendURL + "/user/resetPassword?token=" + token);
         try {
             sendGridUtil.sendEmail(email, "Reset Your Password", customization, "d-e8fa2691c4c44a4dbcf6396971e1a63f");
         } catch (Exception exception) {

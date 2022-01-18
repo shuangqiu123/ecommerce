@@ -5,16 +5,15 @@ import com.sq.dto.ResponseMessage;
 import com.sq.dto.order.*;
 import com.sq.dto.payment.PaymentDto;
 import com.sq.mapper.ItemMapper;
+import com.sq.pojo.*;
 import com.sq.service.ItemService;
 import com.sq.mapper.OrderItemMapper;
 import com.sq.mapper.OrderMapper;
 import com.sq.mapper.OrderShippingMapper;
 import com.sq.service.OrderService;
-import com.sq.pojo.Item;
-import com.sq.pojo.Order;
-import com.sq.pojo.OrderItem;
-import com.sq.pojo.OrderShipping;
 import com.sq.service.PaymentService;
+import com.sq.service.UserService;
+import com.sq.util.SendGridUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private final OrderShippingMapper orderShippingMapper;
 
     private final ItemService itemService;
+
+    private final SendGridUtil sendGridUtil;
+
+    private final UserService userService;
 
     /**
      * create an order by the user id
@@ -313,8 +316,35 @@ public class OrderServiceImpl implements OrderService {
             Integer quantity = orderItem.getNum();
             itemService.updateStock(itemId, quantity);
         });
+        sendOrderConfirmationEmail(order, orderItems);
         paymentService.completePayment(orderPaymentPostDto.getPaymentId());
         return new ResponseMessage(200, "success", null);
+    }
+
+    private void sendOrderConfirmationEmail(Order order, List<OrderItem> orderItems) {
+        OrderShipping orderShipping = orderShippingMapper.selectByPrimaryKey(order.getOrderId());
+        String firstName = orderShipping.getReceiverName().split(" ")[0];
+        List<Map<String, String>> items = new ArrayList<>();
+        orderItems.forEach((orderItem -> {
+            Item itemById = itemService.getItemById(orderItem.getItemId());
+            Map<String, String> item = new HashMap<>();
+            item.put("name", itemById.getTitle());
+            item.put("price", String.format("%.2f", itemById.getPrice()));
+            item.put("quantity", orderItem.getNum().toString());
+            items.add(item);
+        }));
+        Map<String, Object> customization = new HashMap<>();
+        customization.put("firstName", firstName);
+        customization.put("items", items);
+        customization.put("orderId", order.getOrderId().substring(0, 5));
+        customization.put("orderDate", order.getCreateTime().toString().substring(0, 10));
+        customization.put("price", calculatePrice(orderItems));
+        Member member = userService.selectUserById(order.getUserId());
+        try {
+            sendGridUtil.sendEmail(member.getEmail(), "Thanks For Your Order", customization, "d-139b58c1eb2a4662b91447f5cbb20359");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
