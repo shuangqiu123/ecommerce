@@ -232,6 +232,12 @@ public class OrderServiceImpl implements OrderService {
         double price = calculatePrice(orderItems);
         orderGetDto.setPrice(price);
         orderGetDto.setViewOnly(order.getStatus() >= 1);
+        OrderShipping orderShipping = orderShippingMapper.selectByPrimaryKey(orderId);
+        ShippingDto shippingDto = new ShippingDto();
+        if (orderShipping != null) {
+            BeanUtils.copyProperties(orderShipping, shippingDto);
+        }
+        orderGetDto.setShippingAddress(shippingDto);
         order.setPayment(new BigDecimal(price));
         orderMapper.updateByPrimaryKey(order);
         return new ResponseMessage(200, "success", orderGetDto);
