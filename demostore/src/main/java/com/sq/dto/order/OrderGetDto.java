@@ -13,4 +13,5 @@ public class OrderGetDto {
     private List<OrderItemDto> items;
     private Double price;
     private Boolean viewOnly;
+    private ShippingDto shippingAddress;
 }
